@@ -5,7 +5,43 @@ import { useSetTheme, useTheme } from '../context/Theme';
 import { StatusContext } from '../context/Status';
 import { API, getLogo, getSystemName, showSuccess, isAdmin, isMobile, showError } from '../helpers';
 import { setStatusData } from '../helpers/data.js';
-import { IconCalendarClock, IconChecklistStroked, IconComment, IconCreditCard, IconGift, IconHistogram, IconHome, IconImage, IconKey, IconLayers, IconPriceTag, IconSetting, IconUser, IconHelpCircle, IconAt } from '@douyinfe/semi-icons';
+import {
+  IconMoon,
+  IconSun,
+  IconCalendarClock,
+  IconChecklistStroked,
+  IconComment,
+  IconCreditCard,
+  IconGift,
+  IconHistogram,
+  IconHome,
+  IconKey,
+  IconLayers,
+  IconPriceTag,
+  IconSetting,
+  IconUser,
+  IconHelpCircle,
+  IconAt
+} from '@douyinfe/semi-icons';
+
+import {
+  IconToken,
+  IconIntro,
+  IconTree,
+  IconOverflow,
+  IconTag,
+  IconCard,
+  IconToast,
+  IconBanner,
+  IconAvatar,
+  IconChangelog,
+  IconPopover,
+  IconImage,
+  IconSlider,
+  IconConfig,
+  IconFaq,
+} from '@douyinfe/semi-icons-lab';
+
 import { Layout, Nav, Avatar, Dropdown, Switch } from '@douyinfe/semi-ui';
 import { stringToColor } from '../helpers/render';
 import '../index.css';
@@ -23,7 +59,7 @@ const HeaderBar = () => {
   const logo = getLogo();
   const [isCollapsed, setIsCollapsed] = useState(defaultIsCollapsed);
   const [showSidebar, setShowSidebar] = useState(false);
-  
+
   const routerMap = {
     home: '/',
     channel: '/channel',
@@ -47,20 +83,20 @@ const HeaderBar = () => {
         text: '首页',
         itemKey: 'home',
         to: '/',
-        icon: <IconHome />,
+        icon: <IconIntro />,
       },
       {
         text: '渠道',
         itemKey: 'channel',
         to: '/channel',
-        icon: <IconLayers />,
+        icon: <IconTree />,
         className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
       },
       {
         text: '聊天',
         itemKey: 'chat',
         to: '/chat',
-        icon: <IconComment />,
+        icon: <IconOverflow />,
         className: localStorage.getItem('chat_link')
           ? 'semi-navigation-item-normal'
           : 'tableHiddle',
@@ -69,45 +105,45 @@ const HeaderBar = () => {
         text: '令牌',
         itemKey: 'token',
         to: '/token',
-        icon: <IconKey />,
+        icon: <IconTag />,
       },
       {
         text: '兑换码',
         itemKey: 'redemption',
         to: '/redemption',
-        icon: <IconGift />,
+        icon: <IconCard />,
         className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
       },
       {
         text: '钱包',
         itemKey: 'topup',
         to: '/topup',
-        icon: <IconCreditCard />,
+        icon: <IconToast />,
       },
       {
-        text: '模型价格',
+        text: '模型',
         itemKey: 'pricing',
         to: '/pricing',
-        icon: <IconPriceTag />,
+        icon: <IconBanner />,
       },
       {
-        text: '用户管理',
+        text: '用户',
         itemKey: 'user',
         to: '/user',
-        icon: <IconUser />,
+        icon: <IconAvatar />,
         className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
       },
       {
         text: '日志',
         itemKey: 'log',
         to: '/log',
-        icon: <IconHistogram />,
+        icon: <IconChangelog />,
       },
       {
-        text: '数据看板',
+        text: '看板',
         itemKey: 'detail',
         to: '/detail',
-        icon: <IconCalendarClock />,
+        icon: <IconPopover />,
         className:
           localStorage.getItem('enable_data_export') === 'true'
             ? 'semi-navigation-item-normal'
@@ -127,23 +163,23 @@ const HeaderBar = () => {
         text: '异步任务',
         itemKey: 'task',
         to: '/task',
-        icon: <IconChecklistStroked />,
+        icon: <IconSlider />,
         className:
-            localStorage.getItem('enable_task') === 'true'
-                ? 'semi-navigation-item-normal'
-                : 'tableHiddle',
+          localStorage.getItem('enable_task') === 'true'
+            ? 'semi-navigation-item-normal'
+            : 'tableHiddle',
       },
       {
         text: '设置',
         itemKey: 'setting',
         to: '/setting',
-        icon: <IconSetting />,
+        icon: <IconConfig />,
       },
       {
-          text: '关于',
-          itemKey: 'about',
-          to: '/about',
-          icon: <IconAt/>
+        text: '关于',
+        itemKey: 'about',
+        to: '/about',
+        icon: <IconFaq />
       }
     ],
     [
@@ -173,7 +209,7 @@ const HeaderBar = () => {
     loadStatus().then(() => {
       setIsCollapsed(
         isMobile() ||
-          localStorage.getItem('default_collapse_sidebar') === 'true',
+        localStorage.getItem('default_collapse_sidebar') === 'true',
       );
     });
     let localKey = window.location.pathname.split('/')[1];
@@ -218,13 +254,23 @@ const HeaderBar = () => {
                 </Link>
               );
             }}
-            items={[
+            // items={[
+            //   {
+            //     itemKey: 'menu',
+            //     icon: <IconToken />,
+            //     text: '菜单',
+            //     items: headerButtons
+            //   }
+            // ]}
+            items = {isMobile() ? [
               {
                 itemKey: 'menu',
+                icon: <IconToken />,
                 text: '菜单',
                 items: headerButtons
               }
-            ]}
+            ] : headerButtons}
+            
             onSelect={(key) => {
               setSelectedKeys([key.itemKey]);
             }}
@@ -237,16 +283,23 @@ const HeaderBar = () => {
             }}
             footer={
               <>
-                {!isMobile() && <Nav.Item itemKey={'about'} icon={<IconHelpCircle />} />}
-                <Switch
-                  checkedText='🌞'
-                  size={'large'}
-                  checked={theme === 'dark'}
-                  uncheckedText='🌙'
-                  onChange={(checked) => {
-                    setTheme(checked);
+                {/* <span>
+                  {!isMobile() && <Nav.Item itemKey={'about'} icon={<IconFaq />} />}
+                </span> */}
+                <span
+                  onClick={() => {
+                    if (theme === 'dark') {
+                      setTheme(''); // 点击 IconSun 不传递参数
+                    } else {
+                      setTheme('dark'); // 点击 IconMoon 传递 'dark'
+                    }
                   }}
-                />
+                >
+                  <Nav.Item>
+                    {theme === 'dark' ? <IconSun /> : <IconMoon />}
+                  </Nav.Item>
+                </span>
+
                 {userState.user ? (
                   <>
                     <Dropdown

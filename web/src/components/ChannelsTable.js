@@ -347,11 +347,11 @@ const ChannelsTable = () => {
     }
     // data.key = '' + data.id
     setChannels(channels);
-    if (channels.length >= pageSize) {
-      setChannelCount(channels.length + pageSize);
-    } else {
+    // if (channels.length >= pageSize) {
+    //   setChannelCount(channels.length + pageSize);
+    // } else {
       setChannelCount(channels.length);
-    }
+    // }
   };
 
   const loadChannels = async (startIdx, pageSize, idSort) => {
@@ -656,7 +656,7 @@ const ChannelsTable = () => {
     setActivePage(page);
     if (page === Math.ceil(channels.length / pageSize) + 1) {
       // In this case we have to load more data and then append them.
-      loadChannels(page - 1, pageSize, idSort).then((r) => {});
+      loadChannels(page - 1, pageSize, idSort).then((r) => { });
     }
   };
 
@@ -793,16 +793,11 @@ const ChannelsTable = () => {
         columns={columns}
         dataSource={pageData}
         pagination={{
-          currentPage: activePage,
-          pageSize: pageSize,
           total: channelCount,
+          showTotal: true,
           pageSizeOpts: [10, 20, 50, 100],
           showSizeChanger: true,
-          formatPageText: (page) => '',
-          onPageSizeChange: (size) => {
-            handlePageSizeChange(size).then();
-          },
-          onPageChange: handlePageChange,
+          showQuickJumper: true,
         }}
         loading={loading}
         onRow={handleRow}
