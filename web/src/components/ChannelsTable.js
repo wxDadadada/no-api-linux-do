@@ -789,6 +789,7 @@ const ChannelsTable = () => {
       <Table
         className={'channel-table'}
         style={{ marginTop: 15 }}
+        bordered={true}
         columns={columns}
         dataSource={pageData}
         pagination={{

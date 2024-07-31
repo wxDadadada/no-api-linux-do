@@ -16,8 +16,24 @@ const Footer = () => {
   };
 
   const defaultFooter = (
-    <div className='custom-footer'>
-      <a
+    <div className='custom-footer' 
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '20px',
+        color: 'var(--semi-color-text-2)',
+        backgroundColor: 'rgba(var(--semi-grey-0), 1)',
+      }}
+    >
+      <span style={{display: 'flex', alignItems: 'center' }}>
+        {/* <IconBytedanceLogo size="large" style={{ marginRight: '8px' }} /> */}
+        <span>Copyright © 2019 ByteDance. All Rights Reserved. </span>
+      </span>
+      <span>
+        <span style={{ marginRight: '24px' }}>平台客服</span>
+        <span>反馈建议</span>
+      </span>
+      {/* <a
         href='https://github.com/Calcium-Ion/new-api'
         target='_blank'
         rel='noreferrer'
@@ -39,7 +55,7 @@ const Footer = () => {
         rel='noreferrer'
       >
         One API
-      </a>
+      </a> */}
     </div>
   );
 

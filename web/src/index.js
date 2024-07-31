@@ -25,9 +25,9 @@ root.render(
         <BrowserRouter>
           <ThemeProvider>
             <Layout>
-              <Sider>
+              {/* <Sider>
                 <SiderBar />
-              </Sider>
+              </Sider> */}
               <Layout>
                 <Header>
                   <HeaderBar />
