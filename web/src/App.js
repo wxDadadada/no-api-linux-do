@@ -1,34 +1,36 @@
 import React, { lazy, Suspense, useContext, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Loading from './components/Loading';
-import User from './pages/User';
+import User from './pages/Console/User';
 import { PrivateRoute } from './components/PrivateRoute';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import NotFound from './pages/NotFound';
 import Setting from './pages/Setting';
-import EditUser from './pages/User/EditUser';
+import EditUser from './pages/Console/User/EditUser';
 import { getLogo, getSystemName } from './helpers';
 import PasswordResetForm from './components/PasswordResetForm';
 import GitHubOAuth from './components/GitHubOAuth';
 import PasswordResetConfirm from './components/PasswordResetConfirm';
 import { UserContext } from './context/User';
-import Channel from './pages/Channel';
-import Token from './pages/Token';
-import EditChannel from './pages/Channel/EditChannel';
-import Redemption from './pages/Redemption';
-import TopUp from './pages/TopUp';
-import Log from './pages/Log';
-import Chat from './pages/Chat';
+import Channel from './pages/Console/Channel';
+import Token from './pages/Console/Token';
+import EditChannel from './pages/Console/Channel/EditChannel';
+import Redemption from './pages/Console/Redemption';
+import TopUp from './pages/Console/TopUp';
+import Log from './pages/Console/Log';
+import Chat from './pages/Console/Chat';
 import { Layout } from '@douyinfe/semi-ui';
-import Midjourney from './pages/Midjourney';
+import Midjourney from './pages/Console/Midjourney';
 import Pricing from './pages/Pricing/index.js';
-import Task from "./pages/Task/index.js";
+import Task from "./pages/Console/Task/index.js";
+// import Console from "./pages/Console";
 // import Detail from './pages/Detail';
 
 const Home = lazy(() => import('./pages/Home'));
-const Detail = lazy(() => import('./pages/Detail'));
+const Detail = lazy(() => import('./pages/Console/Detail'));
 const About = lazy(() => import('./pages/About'));
+const Console = lazy(() => import('./pages/Console/index.js'));
 
 function App() {
   const [userState, userDispatch] = useContext(UserContext);
@@ -70,7 +72,15 @@ function App() {
             }
           />
           <Route
-            path='/channel'
+            path='/console'
+            element={
+              <Suspense fallback={<Loading></Loading>}>
+                <Console />
+              </Suspense>
+            }
+          />
+          <Route
+            path='/console/channel'
             element={
               <PrivateRoute>
                 <Channel />
@@ -78,7 +88,7 @@ function App() {
             }
           />
           <Route
-            path='/channel/edit/:id'
+            path='/console/channel/edit/:id'
             element={
               <Suspense fallback={<Loading></Loading>}>
                 <EditChannel />
@@ -86,7 +96,7 @@ function App() {
             }
           />
           <Route
-            path='/channel/add'
+            path='/console/channel/add'
             element={
               <Suspense fallback={<Loading></Loading>}>
                 <EditChannel />
@@ -94,7 +104,7 @@ function App() {
             }
           />
           <Route
-            path='/token'
+            path='/console/token'
             element={
               <PrivateRoute>
                 <Token />
@@ -102,7 +112,7 @@ function App() {
             }
           />
           <Route
-            path='/redemption'
+            path='/console/redemption'
             element={
               <PrivateRoute>
                 <Redemption />
@@ -110,7 +120,7 @@ function App() {
             }
           />
           <Route
-            path='/user'
+            path='/console/user'
             element={
               <PrivateRoute>
                 <User />
@@ -118,7 +128,7 @@ function App() {
             }
           />
           <Route
-            path='/user/edit/:id'
+            path='/console/user/edit/:id'
             element={
               <Suspense fallback={<Loading></Loading>}>
                 <EditUser />
@@ -126,7 +136,7 @@ function App() {
             }
           />
           <Route
-            path='/user/edit'
+            path='/console/user/edit'
             element={
               <Suspense fallback={<Loading></Loading>}>
                 <EditUser />
@@ -134,7 +144,7 @@ function App() {
             }
           />
           <Route
-            path='/user/reset'
+            path='/console/user/reset'
             element={
               <Suspense fallback={<Loading></Loading>}>
                 <PasswordResetConfirm />
@@ -184,7 +194,7 @@ function App() {
             }
           />
           <Route
-            path='/topup'
+            path='/console/topup'
             element={
               <PrivateRoute>
                 <Suspense fallback={<Loading></Loading>}>
@@ -194,7 +204,7 @@ function App() {
             }
           />
           <Route
-            path='/log'
+            path='/console/log'
             element={
               <PrivateRoute>
                 <Log />
@@ -202,7 +212,7 @@ function App() {
             }
           />
           <Route
-            path='/detail'
+            path='/console/detail'
             element={
               <PrivateRoute>
                 <Suspense fallback={<Loading></Loading>}>
@@ -212,7 +222,7 @@ function App() {
             }
           />
           <Route
-            path='/midjourney'
+            path='/console/midjourney'
             element={
               <PrivateRoute>
                 <Suspense fallback={<Loading></Loading>}>
@@ -222,7 +232,7 @@ function App() {
             }
           />
           <Route
-            path='/task'
+            path='/console/task'
             element={
                 <PrivateRoute>
                     <Suspense fallback={<Loading></Loading>}>
@@ -248,7 +258,7 @@ function App() {
             }
           />
           <Route
-            path='/chat'
+            path='/console/chat'
             element={
               <Suspense fallback={<Loading></Loading>}>
                 <Chat />

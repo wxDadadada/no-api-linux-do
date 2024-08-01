@@ -62,19 +62,22 @@ const HeaderBar = () => {
 
   const routerMap = {
     home: '/',
-    channel: '/channel',
-    token: '/token',
-    redemption: '/redemption',
-    topup: '/topup',
-    user: '/user',
-    log: '/log',
-    midjourney: '/midjourney',
+    console: '/console',
+    channel: '/console/channel',
+    token: '/console/token',
+    redemption: '/console/redemption',
+    topup: '/console/topup',
+    user: '/console/user',
+    log: '/console/log',
+    midjourney: '/console/midjourney',
     setting: '/setting',
     about: '/about',
-    chat: '/chat',
-    detail: '/detail',
+    chat: '/console/chat',
+    detail: '/console/detail',
     pricing: '/pricing',
-    task: '/task',
+    task: '/console/task',
+    login: '/login',
+    register: '/register',
   };
 
   const headerButtons = useMemo(
@@ -84,6 +87,12 @@ const HeaderBar = () => {
         itemKey: 'home',
         to: '/',
         icon: <IconIntro />,
+      },
+      {
+        text: '控制台',
+        itemKey: 'console',
+        to: '/console',
+        icon: <IconToken />,
       },
       {
         text: '渠道',
@@ -254,33 +263,44 @@ const HeaderBar = () => {
                 </Link>
               );
             }}
-            // items={[
-            //   {
-            //     itemKey: 'menu',
-            //     icon: <IconToken />,
-            //     text: '菜单',
-            //     items: headerButtons
-            //   }
-            // ]}
-            items = {isMobile() ? [
+            items={!isMobile() ? [
               {
-                itemKey: 'menu',
-                icon: <IconToken />,
-                text: '菜单',
-                items: headerButtons
+                text: '首页',
+                itemKey: 'home',
+              },
+              {
+                text: '控制台',
+                itemKey: 'console'
               }
-            ] : headerButtons}
-            
+            ] : [{
+              text: '控制台',
+              itemKey: 'console',
+              icon: <IconToken />,
+              items: headerButtons
+            }]}
             onSelect={(key) => {
               setSelectedKeys([key.itemKey]);
             }}
 
-            header={{
-              logo: (
-                <img src={logo} alt='logo' style={{ marginRight: '0.75em' }} />
-              ),
-              // text: systemName
-            }}
+            header={
+              <>
+                {/* {
+                  logo: (
+                    <img src={logo} alt='logo' style={{ marginRight: '0.75em' }} />
+                  )
+                  // text: systemName
+                } */}
+                {/* {!isMobile() && <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />} */}
+                {!isMobile() ? (
+                  <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />
+                ) : (
+                  !location.pathname.startsWith('/console') ? (
+                    <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />
+                  ) : ('1'
+                  )
+                )}
+              </>
+            }
             footer={
               <>
                 {/* <span>
@@ -289,48 +309,60 @@ const HeaderBar = () => {
                 <span
                   onClick={() => {
                     if (theme === 'dark') {
-                      setTheme(''); // 点击 IconSun 不传递参数
+                      setTheme('');
                     } else {
-                      setTheme('dark'); // 点击 IconMoon 传递 'dark'
+                      setTheme('dark');
                     }
                   }}
                 >
-                  <Nav.Item>
+                  <Nav.Item style={{ 'background-color': 'transparent' }}>
                     {theme === 'dark' ? <IconSun /> : <IconMoon />}
                   </Nav.Item>
                 </span>
 
                 {userState.user ? (
                   <>
-                    <Dropdown
-                      position='bottomRight'
-                      render={
-                        <Dropdown.Menu>
-                          <Dropdown.Item onClick={logout}>退出</Dropdown.Item>
-                        </Dropdown.Menu>
-                      }
-                    >
-                      <Avatar
-                        size='small'
-                        color={stringToColor(userState.user.username)}
-                        style={{ margin: 4 }}
+                    {!location.pathname.startsWith('/console') ? (
+                      <Nav.Item
+                        text={'控制台'}
+                        itemKey={'console'}
+                        icon={<IconToken />}
+                        style={{ 'background-color': 'transparent' }}
+                      />
+                    ) : (
+                      <Dropdown
+                        position='bottomRight'
+                        render={
+                          <Dropdown.Menu>
+                            <Dropdown.Item onClick={logout}>退出</Dropdown.Item>
+                          </Dropdown.Menu>
+                        }
                       >
-                        {userState.user.username}
-                      </Avatar>
-                      {!isMobile() && <span>{userState.user.username}</span>}
-                    </Dropdown>
+                        <Avatar
+                          size='small'
+                          color={stringToColor(userState.user.username)}
+                          style={{ margin: 4 }}
+                        >
+                          {userState.user.username}
+                        </Avatar>
+                        {!isMobile() && <span>{userState.user.username}</span>}
+                      </Dropdown>
+                    )}
+
                   </>
                 ) : (
                   <>
                     <Nav.Item
-                      itemKey={'login'}
                       text={'登录'}
+                      itemKey={'login'}
                       icon={<IconKey />}
+                      style={{ 'background-color': 'transparent' }}
                     />
                     <Nav.Item
-                      itemKey={'register'}
                       text={'注册'}
+                      itemKey={'register'}
                       icon={<IconUser />}
+                      style={{ 'background-color': 'transparent' }}
                     />
                   </>
                 )}
@@ -338,7 +370,7 @@ const HeaderBar = () => {
             }
           ></Nav>
         </div>
-      </Layout>
+      </Layout >
     </>
   );
 };

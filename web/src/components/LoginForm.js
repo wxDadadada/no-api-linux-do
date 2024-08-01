@@ -110,7 +110,7 @@ const LoginForm = () => {
             centered: true,
           });
         }
-        navigate('/token');
+        navigate('/console');
       } else {
         showError(message);
       }
