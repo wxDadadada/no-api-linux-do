@@ -16,6 +16,9 @@ import { ThemeProvider } from './context/Theme';
 
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
+
+import { isMobile } from './helpers';
+
 // initialization
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -63,11 +66,15 @@ function LayoutWithConditionalSider() {
 
   return (
     <Layout>
-      {location.pathname.startsWith('/console') && (
-        <Sider>
-          <SiderBar />
-        </Sider>
-      )}
+      {!isMobile() &&
+        (
+          location.pathname.startsWith('/console') && (
+            <Sider>
+              <SiderBar />
+            </Sider>
+          )
+        )
+      }
       <Content
         style={{
           padding: '24px',
@@ -89,7 +96,27 @@ function Main() {
         <Routes>
           <Route path="*" element={<LayoutWithConditionalSider />} />
         </Routes>
-        <Layout.Footer>
+        <Layout.Footer
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '20px',
+            color: 'var(--semi-color-text-2)',
+            backgroundColor: 'rgba(var(--semi-grey-0), 1)',
+          }}
+        >
+          {/* <span
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <span>Copyright © 2019 ByteDance. All Rights Reserved. </span>
+          </span>
+          <span>
+            <span style={{ marginRight: '24px' }}>平台客服</span>
+            <span>反馈建议</span>
+          </span> */}
           <Footer />
         </Layout.Footer>
       </ThemeProvider>

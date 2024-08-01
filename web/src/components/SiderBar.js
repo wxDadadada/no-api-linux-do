@@ -123,12 +123,12 @@ const SiderBar = () => {
         to: '/topup',
         icon: <IconToast />,
       },
-      {
-        text: '模型价格',
-        itemKey: 'pricing',
-        to: '/pricing',
-        icon: <IconBanner />,
-      },
+      // {
+      //   text: '模型价格',
+      //   itemKey: 'pricing',
+      //   to: '/pricing',
+      //   icon: <IconBanner />,
+      // },
       {
         text: '用户管理',
         itemKey: 'user',
@@ -178,18 +178,18 @@ const SiderBar = () => {
           }
         ]
       },
-      {
-        text: '设置',
-        itemKey: 'setting',
-        to: '/setting',
-        icon: <IconConfig />,
-      },
-      {
-        text: '关于',
-        itemKey: 'about',
-        to: '/about',
-        icon: <IconFaq />
-      }
+      // {
+      //   text: '设置',
+      //   itemKey: 'setting',
+      //   to: '/setting',
+      //   icon: <IconConfig />,
+      // },
+      // {
+      //   text: '关于',
+      //   itemKey: 'about',
+      //   to: '/about',
+      //   icon: <IconFaq />
+      // }
     ],
     [
       localStorage.getItem('enable_data_export'),
@@ -235,11 +235,11 @@ const SiderBar = () => {
           <Nav
             defaultOpenKeys={['logs']}
             // bodyStyle={{ maxWidth: 200 }}
-            // style={{ maxWidth: 200 }}
-            defaultIsCollapsed={
-              isMobile() ||
-              localStorage.getItem('default_collapse_sidebar') === 'true'
-            }
+            style={{ maxWidth: 200 }}
+            // defaultIsCollapsed={
+            //   isMobile() ||
+            //   localStorage.getItem('default_collapse_sidebar') === 'true'
+            // }
             isCollapsed={isCollapsed}
             onCollapseChange={(collapsed) => {
               setIsCollapsed(collapsed);

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { API, showError } from '../../helpers';
 import { marked } from 'marked';
-import { Layout } from '@douyinfe/semi-ui';
+import { Layout, Empty, Card, Typography } from '@douyinfe/semi-ui';
+import { IllustrationSuccess, IllustrationSuccessDark } from '@douyinfe/semi-illustrations';
 import SiderBar from '../../components/SiderBar';
 const { Sider } = Layout;
 
@@ -31,22 +32,50 @@ const About = () => {
     displayAbout().then();
   }, []);
 
+  const { Text } = Typography;
+
   return (
     <>
       <Layout>
         <Layout.Content>
-          <p>可在设置页面设置关于内容，支持 HTML & Markdown</p>
-          New-API项目仓库地址：
-          <a href='https://github.com/Calcium-Ion/new-api'>
-            https://github.com/Calcium-Ion/new-api
-          </a>
-          <p>
-            NewAPI © 2023 CalciumIon | 基于 One API v0.5.4 © 2023
-            JustSong。
-          </p>
-          <p>
-            本项目根据MIT许可证授权，需在遵守Apache-2.0协议的前提下使用。
-          </p>
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center', // 水平居中
+            // alignItems: 'center', // 垂直居中
+            // height: '100vh', // 让父元素占据整个视口的高度
+          }}>
+            <Empty
+              image={<IllustrationSuccess style={{ width: 150, height: 150 }} />}
+              darkModeImage={<IllustrationSuccessDark style={{ width: 150, height: 150 }} />}
+              description={'欢迎来到控制台'}
+              style={{ padding: 30 }}
+            />
+          </div>
+
+          <Card title='常见问题' >
+            <Card
+              title='关于gpt系列最新模型'
+              style={{ marginBottom: 20 }}
+              headerExtraContent={
+                <Text link>
+                  More
+                </Text>
+              }
+            >
+              gpt所有模型升级后默认会指向最新日期的模型，不想频繁变动模型名称可直接配置不带日期的模型，列如GPT-4o当前指向 gpt-4o-2024-05-13。
+            </Card>
+            <Card
+              title=' 余额用完了怎么充值'
+              headerExtraContent={
+                <Text link>
+                  More
+                </Text>
+              }
+            >
+              1.您可以在额度充值页面进行在线充值；2. 或者使用兑换码进行兑换余额即可；如果您的令牌设置的不是无限额度，充值后还需检查该令牌余额是否充足，以免影响正常使用。
+            </Card>
+          </Card>
         </Layout.Content>
       </Layout>
     </>

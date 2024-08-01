@@ -42,7 +42,7 @@ import {
   IconFaq,
 } from '@douyinfe/semi-icons-lab';
 
-import { Layout, Nav, Avatar, Dropdown, Switch } from '@douyinfe/semi-ui';
+import { Layout, Nav, Avatar, Dropdown, Switch, Tag } from '@douyinfe/semi-ui';
 import { stringToColor } from '../helpers/render';
 import '../index.css';
 
@@ -228,6 +228,9 @@ const HeaderBar = () => {
     setSelectedKeys([localKey]);
   }, []);
 
+  async function personal() {
+    navigate('/setting?tab=personal');
+  }
   async function logout() {
     setShowSidebar(false);
     await API.get('/api/user/logout');
@@ -237,6 +240,7 @@ const HeaderBar = () => {
     navigate('/login');
   }
 
+
   const theme = useTheme();
   const setTheme = useSetTheme();
 
@@ -245,6 +249,55 @@ const HeaderBar = () => {
       document.body.setAttribute('theme-mode', 'dark');
     }
   }, []);
+
+  function DropdownEvents() {
+    function redirectTo(route) {
+      navigate(route);
+    }
+    const menu = [
+      { node: 'item', name: '仪表盘', type: 'tertiary', icon: <IconIntro />, onClick: () => redirectTo('/console') },
+      { node: 'item', name: '渠道管理', type: 'tertiary', icon: <IconTree />, onClick: () => redirectTo('/console/channel') },
+      { node: 'item', name: '在线聊天', type: 'tertiary', icon: <IconOverflow />, onClick: () => redirectTo('/console/chat'), className: localStorage.getItem('chat_link') ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      { node: 'item', name: '令牌管理', type: 'tertiary', icon: <IconTag />, onClick: () => redirectTo('/console/token') },
+      { node: 'item', name: '兑换卡密', type: 'tertiary', icon: <IconCard />, onClick: () => redirectTo('/console/redemption'), className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      { node: 'item', name: '额度充值', type: 'tertiary', icon: <IconOverflow />, onClick: () => redirectTo('/console/topup') },
+      { node: 'item', name: '用户管理', type: 'tertiary', icon: <IconAvatar />, onClick: () => redirectTo('/console/user'), className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      { node: 'title', name: '日志' },
+      { node: 'item', name: '统计图表', type: 'tertiary', icon: <IconPopover />, onClick: () => redirectTo('/console/detail'), className: localStorage.getItem('enable_data_export') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      { node: 'item', name: '对话日志', type: 'tertiary', icon: <IconChangelog />, onClick: () => redirectTo('/console/log') },
+      { node: 'item', name: '绘画日志', type: 'tertiary', icon: <IconImage />, onClick: () => redirectTo('/console/midjourney'), className: localStorage.getItem('enable_drawing') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      { node: 'item', name: '异步任务', type: 'tertiary', icon: <IconSlider />, onClick: () => redirectTo('/console/task'), className: localStorage.getItem('enable_task') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      // {
+      //   text: '模型',
+      //   itemKey: 'pricing',
+      //   to: '/pricing',
+      //   icon: <IconBanner />,
+      // },
+      // {
+      //   text: '设置',
+      //   itemKey: 'setting',
+      //   to: '/setting',
+      //   icon: <IconConfig />,
+      // },
+      // {
+      //   text: '关于',
+      //   itemKey: 'about',
+      //   to: '/about',
+      //   icon: <IconFaq />
+      // }
+    ];
+
+    return (
+      <Dropdown trigger={'click'} position={'bottomLeft'} menu={menu}>
+        {/* <Nav.Item
+          text={'控制台'}
+          icon={<IconToken />}
+          style={{ 'background-color': 'transparent' }}
+        /> */}
+        <IconToken size='extra-large' />
+      </Dropdown>
+    );
+  }
 
   return (
     <>
@@ -271,32 +324,36 @@ const HeaderBar = () => {
               {
                 text: '控制台',
                 itemKey: 'console'
+              },
+              {
+                text: '模型价格',
+                itemKey: 'pricing',
+              },
+              {
+                text: '帮助中心',
+                itemKey: 'about'
               }
-            ] : [{
-              text: '控制台',
-              itemKey: 'console',
-              icon: <IconToken />,
-              items: headerButtons
-            }]}
+            ] : [
+              // {
+              //   text: '控制台',
+              //   itemKey: 'console',
+              //   icon: <IconToken />,
+              //   items: headerButtons
+              // }
+            ]}
             onSelect={(key) => {
               setSelectedKeys([key.itemKey]);
             }}
 
             header={
               <>
-                {/* {
-                  logo: (
-                    <img src={logo} alt='logo' style={{ marginRight: '0.75em' }} />
-                  )
-                  // text: systemName
-                } */}
-                {/* {!isMobile() && <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />} */}
                 {!isMobile() ? (
                   <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />
                 ) : (
                   !location.pathname.startsWith('/console') ? (
                     <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />
-                  ) : ('1'
+                  ) : (
+                    DropdownEvents()
                   )
                 )}
               </>
@@ -334,7 +391,8 @@ const HeaderBar = () => {
                         position='bottomRight'
                         render={
                           <Dropdown.Menu>
-                            <Dropdown.Item onClick={logout}>退出</Dropdown.Item>
+                            <Dropdown.Item onClick={personal}>个人中心</Dropdown.Item>
+                            <Dropdown.Item onClick={logout}>退出登录</Dropdown.Item>
                           </Dropdown.Menu>
                         }
                       >
@@ -343,7 +401,7 @@ const HeaderBar = () => {
                           color={stringToColor(userState.user.username)}
                           style={{ margin: 4 }}
                         >
-                          {userState.user.username}
+                          {userState.user.username[0]}
                         </Avatar>
                         {!isMobile() && <span>{userState.user.username}</span>}
                       </Dropdown>

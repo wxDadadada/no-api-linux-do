@@ -202,101 +202,101 @@ const ChannelsTable = () => {
         );
       },
     },
-    // {
-    //   title: '',
-    //   dataIndex: 'operate',
-    //   render: (text, record, index) => (
-    //     <div>
-    //       <SplitButtonGroup
-    //         style={{ marginRight: 1 }}
-    //         aria-label='测试操作项目组'
-    //       >
-    //         <Button
-    //           theme='light'
-    //           onClick={() => {
-    //             testChannel(record, '');
-    //           }}
-    //         >
-    //           测试
-    //         </Button>
-    //         <Dropdown
-    //           trigger='click'
-    //           position='bottomRight'
-    //           menu={record.test_models}
-    //         >
-    //           <Button
-    //             style={{ padding: '8px 4px' }}
-    //             type='primary'
-    //             icon={<IconTreeTriangleDown />}
-    //           ></Button>
-    //         </Dropdown>
-    //       </SplitButtonGroup>
-    //       {/*<Button theme='light' type='primary' style={{marginRight: 1}} onClick={()=>testChannel(record)}>测试</Button>*/}
-    //       <Popconfirm
-    //         title='确定是否要删除此渠道？'
-    //         content='此修改将不可逆'
-    //         okType={'danger'}
-    //         position={'left'}
-    //         onConfirm={() => {
-    //           manageChannel(record.id, 'delete', record).then(() => {
-    //             removeRecord(record.id);
-    //           });
-    //         }}
-    //       >
-    //         <Button theme='light' type='danger' style={{ marginRight: 1 }}>
-    //           删除
-    //         </Button>
-    //       </Popconfirm>
-    //       {record.status === 1 ? (
-    //         <Button
-    //           theme='light'
-    //           type='warning'
-    //           style={{ marginRight: 1 }}
-    //           onClick={async () => {
-    //             manageChannel(record.id, 'disable', record);
-    //           }}
-    //         >
-    //           禁用
-    //         </Button>
-    //       ) : (
-    //         <Button
-    //           theme='light'
-    //           type='secondary'
-    //           style={{ marginRight: 1 }}
-    //           onClick={async () => {
-    //             manageChannel(record.id, 'enable', record);
-    //           }}
-    //         >
-    //           启用
-    //         </Button>
-    //       )}
-    //       <Button
-    //         theme='light'
-    //         type='tertiary'
-    //         style={{ marginRight: 1 }}
-    //         onClick={() => {
-    //           setEditingChannel(record);
-    //           setShowEdit(true);
-    //         }}
-    //       >
-    //         编辑
-    //       </Button>
-    //       <Popconfirm
-    //         title='确定是否要复制此渠道？'
-    //         content='复制渠道的所有信息'
-    //         okType={'danger'}
-    //         position={'left'}
-    //         onConfirm={async () => {
-    //           copySelectedChannel(record.id);
-    //         }}
-    //       >
-    //         <Button theme='light' type='primary' style={{ marginRight: 1 }}>
-    //           复制
-    //         </Button>
-    //       </Popconfirm>
-    //     </div>
-    //   ),
-    // },
+    {
+      title: '',
+      dataIndex: 'operate',
+      render: (text, record, index) => (
+        <div>
+          <SplitButtonGroup
+            style={{ marginRight: 1 }}
+            aria-label='测试操作项目组'
+          >
+            <Button
+              theme='light'
+              onClick={() => {
+                testChannel(record, '');
+              }}
+            >
+              测试
+            </Button>
+            <Dropdown
+              trigger='click'
+              position='bottomRight'
+              menu={record.test_models}
+            >
+              <Button
+                style={{ padding: '8px 4px' }}
+                type='primary'
+                icon={<IconTreeTriangleDown />}
+              ></Button>
+            </Dropdown>
+          </SplitButtonGroup>
+          {/*<Button theme='light' type='primary' style={{marginRight: 1}} onClick={()=>testChannel(record)}>测试</Button>*/}
+          <Popconfirm
+            title='确定是否要删除此渠道？'
+            content='此修改将不可逆'
+            okType={'danger'}
+            position={'left'}
+            onConfirm={() => {
+              manageChannel(record.id, 'delete', record).then(() => {
+                removeRecord(record.id);
+              });
+            }}
+          >
+            <Button theme='light' type='danger' style={{ marginRight: 1 }}>
+              删除
+            </Button>
+          </Popconfirm>
+          {record.status === 1 ? (
+            <Button
+              theme='light'
+              type='warning'
+              style={{ marginRight: 1 }}
+              onClick={async () => {
+                manageChannel(record.id, 'disable', record);
+              }}
+            >
+              禁用
+            </Button>
+          ) : (
+            <Button
+              theme='light'
+              type='secondary'
+              style={{ marginRight: 1 }}
+              onClick={async () => {
+                manageChannel(record.id, 'enable', record);
+              }}
+            >
+              启用
+            </Button>
+          )}
+          <Button
+            theme='light'
+            type='tertiary'
+            style={{ marginRight: 1 }}
+            onClick={() => {
+              setEditingChannel(record);
+              setShowEdit(true);
+            }}
+          >
+            编辑
+          </Button>
+          <Popconfirm
+            title='确定是否要复制此渠道？'
+            content='复制渠道的所有信息'
+            okType={'danger'}
+            position={'left'}
+            onConfirm={async () => {
+              copySelectedChannel(record.id);
+            }}
+          >
+            <Button theme='light' type='primary' style={{ marginRight: 1 }}>
+              复制
+            </Button>
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
 
   const [channels, setChannels] = useState([]);
@@ -794,10 +794,10 @@ const ChannelsTable = () => {
           </Space>
         </Space>
       </div>
-      <div style={{'overflow-x': 'auto'}}>
+      {/* <div style={{'overflow-x': 'auto'}}> */}
       <Table
         className={'channel-table'}
-        style={{ marginTop: 15, 'min-width': 1000 }}
+        style={{ marginTop: 15 }}
         bordered={true}
         columns={columns}
         dataSource={pageData}
@@ -810,7 +810,7 @@ const ChannelsTable = () => {
         }}
         loading={loading}
         onRow={handleRow}
-        scroll={{x:1000}}
+        // scroll={{x:1000}}
         rowSelection={
           enableBatchDelete
             ? {
@@ -822,7 +822,7 @@ const ChannelsTable = () => {
             : null
         }
       />
-      </div>
+      {/* </div> */}
       <div
         style={{
           display: isMobile() ? '' : 'flex',
