@@ -611,11 +611,11 @@ const TokensTable = () => {
           查询
         </Button>
       </Form>
-      
+
       <Button
         theme='light'
         type='primary'
-        style={{ marginRight: 8 }}
+        style={{ marginRight: '10px', marginBottom: '10px' }}
         onClick={() => {
           setEditingToken({
             id: undefined,
@@ -628,6 +628,7 @@ const TokensTable = () => {
       <Button
         label='复制所选令牌'
         type='warning'
+        style={{ marginRight: '10px', marginBottom: '10px' }}
         onClick={async () => {
           if (selectedKeys.length === 0) {
             showError('请至少选择一个令牌！');
@@ -643,11 +644,10 @@ const TokensTable = () => {
       >
         复制所选令牌到剪贴板
       </Button>
-
       <Table
-        style={{ marginTop: 15, 'white-space': 'nowrap' }}
+        style={{ 'white-space': 'nowrap' }}
         bordered={true}
-        size={isMobile() ? 'small' : 'default'}
+        size='small'
         columns={columns}
         dataSource={pageData}
         pagination={{

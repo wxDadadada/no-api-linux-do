@@ -395,11 +395,41 @@ const RedemptionsTable = () => {
           />
         </>
       </Form>
-
+      <Button
+        theme='light'
+        type='primary'
+        style={{ marginRight: '10px', marginBottom: '10px' }}
+        onClick={() => {
+          setEditingRedemption({
+            id: undefined,
+          });
+          setShowEdit(true);
+        }}
+      >
+        添加兑换码
+      </Button>
+      <Button
+        label='复制所选兑换码'
+        type='warning'
+        style={{ marginRight: '10px', marginBottom: '10px' }}
+        onClick={async () => {
+          if (selectedKeys.length === 0) {
+            showError('请至少选择一个兑换码！');
+            return;
+          }
+          let keys = '';
+          for (let i = 0; i < selectedKeys.length; i++) {
+            keys += selectedKeys[i].name + '    ' + selectedKeys[i].key + '\n';
+          }
+          await copyText(keys);
+        }}
+      >
+        复制所选兑换码到剪贴板
+      </Button>
       <Table
-        style={{ marginTop: 15, 'white-space': 'nowrap' }}
+        style={{ 'white-space': 'nowrap' }}
         bordered={true}
-        size={isMobile() ? 'small' : 'default'}
+        size='small'
         columns={columns}
         dataSource={pageData}
         pagination={{
@@ -420,36 +450,6 @@ const RedemptionsTable = () => {
         rowSelection={rowSelection}
         onRow={handleRow}
       ></Table>
-      <Button
-        theme='light'
-        type='primary'
-        style={{ marginRight: 8 }}
-        onClick={() => {
-          setEditingRedemption({
-            id: undefined,
-          });
-          setShowEdit(true);
-        }}
-      >
-        添加兑换码
-      </Button>
-      <Button
-        label='复制所选兑换码'
-        type='warning'
-        onClick={async () => {
-          if (selectedKeys.length === 0) {
-            showError('请至少选择一个兑换码！');
-            return;
-          }
-          let keys = '';
-          for (let i = 0; i < selectedKeys.length; i++) {
-            keys += selectedKeys[i].name + '    ' + selectedKeys[i].key + '\n';
-          }
-          await copyText(keys);
-        }}
-      >
-        复制所选兑换码到剪贴板
-      </Button>
     </>
   );
 };

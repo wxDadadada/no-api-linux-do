@@ -478,11 +478,20 @@ const UsersTable = () => {
           </Button>
         </>
       </Form>
-
+      <Button
+        theme='light'
+        type='primary'
+        style={{ marginRight: '10px', marginBottom: '10px' }}
+        onClick={() => {
+          setShowAddUser(true);
+        }}
+      >
+        添加用户
+      </Button>
       <Table
-        style={{ marginTop: 15, 'white-space': 'nowrap' }}
+        style={{ 'white-space': 'nowrap' }}
         bordered={true}
-        size={isMobile() ? 'small' : 'default'}
+        size='small'
         columns={columns}
         dataSource={pageData}
         pagination={{
@@ -494,16 +503,6 @@ const UsersTable = () => {
         }}
         loading={loading}
       />
-      <Button
-        theme='light'
-        type='primary'
-        style={{ marginRight: 8 }}
-        onClick={() => {
-          setShowAddUser(true);
-        }}
-      >
-        添加用户
-      </Button>
     </>
   );
 };

@@ -717,14 +717,13 @@ const ChannelsTable = () => {
         }}
         layout='horizontal'
         labelPosition='inset'
-      // labelPosition='left'
       >
         <>
           <Form.Input
             field='search_keyword'
             label='搜索关键词'
             placeholder='ID，名称和密钥 ...'
-            style={{ width: '250px', marginBottom: '10px' }} 
+            style={{ width: '250px', marginBottom: '10px' }}
             value={searchKeyword}
             loading={searching}
             onChange={(v) => {
@@ -735,7 +734,7 @@ const ChannelsTable = () => {
             field='search_model'
             label='模型'
             placeholder='模型关键字'
-            style={{ width: '250px', marginBottom: '10px' }} 
+            style={{ width: '250px', marginBottom: '10px' }}
             value={searchModel}
             loading={searching}
             onChange={(v) => {
@@ -746,7 +745,7 @@ const ChannelsTable = () => {
             field='group'
             label='分组'
             optionList={groupOptions}
-            style={{ width: '250px', marginBottom: '10px' }} 
+            style={{ width: '250px', marginBottom: '10px' }}
             onChange={(v) => {
               setSearchGroup(v);
               searchChannels(searchKeyword, v, searchModel);
@@ -755,7 +754,7 @@ const ChannelsTable = () => {
           <Button
             label='查询'
             type='primary'
-            style={{ marginBottom: '10px' }} 
+            style={{ marginBottom: '10px' }}
             htmlType='submit'
             className='btn-margin-right'
           >
@@ -763,9 +762,59 @@ const ChannelsTable = () => {
           </Button>
         </>
       </Form>
-      <div style={{ marginTop: 10, display: 'flex' }}>
-        <Space>
-          <Space>
+      <Button
+        theme='light'
+        type='primary'
+        style={{ marginRight: '10px', marginBottom: '10px' }}
+        onClick={() => {
+          setEditingChannel({
+            id: undefined,
+          });
+          setShowEdit(true);
+        }}
+      >
+        添加渠道
+      </Button>
+      <Popconfirm
+        title='确定？'
+        okType={'warning'}
+        onConfirm={testAllChannels}
+        position={isMobile() ? 'top' : 'top'}
+      >
+        <Button theme='light' type='warning' style={{ marginRight: '10px', marginBottom: '10px' }}>
+          测试所有通道
+        </Button>
+      </Popconfirm>
+      <Popconfirm
+        title='确定？'
+        okType={'secondary'}
+        onConfirm={updateAllChannelsBalance}
+      >
+        <Button theme='light' type='secondary' style={{ marginRight: '10px', marginBottom: '10px' }}>
+          更新所有已启用通道余额
+        </Button>
+      </Popconfirm>
+      <Popconfirm
+        title='确定是否要删除禁用通道？'
+        content='此修改将不可逆'
+        okType={'danger'}
+        onConfirm={deleteAllDisabledChannels}
+      >
+        <Button theme='light' type='danger' style={{ marginRight: '10px', marginBottom: '10px' }}>
+          删除禁用通道
+        </Button>
+      </Popconfirm>
+
+      <Button
+        theme='light'
+        type='primary'
+        style={{ marginRight: '10px', marginBottom: '10px' }}
+        onClick={refresh}
+      >
+        刷新
+      </Button>
+<div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <Space style={{ marginRight: '10px', marginBottom: '10px' }}>
             <Typography.Text strong>使用ID排序</Typography.Text>
             <Switch
               checked={idSort}
@@ -782,14 +831,53 @@ const ChannelsTable = () => {
                   });
               }}
             ></Switch>
-          </Space>
         </Space>
-      </div>
+      <Space style={{ marginRight: '10px', marginBottom: '10px' }}>
+        <Typography.Text strong>删除开关</Typography.Text>
+        <Switch
+          label='开启批量删除'
+          uncheckedText='关'
+          aria-label='是否开启批量删除'
+          onChange={(v) => {
+            setEnableBatchDelete(v);
+          }}
+        ></Switch>
+
+      </Space>
+        <Popconfirm
+          title='确定是否要删除所选通道？'
+          content='此修改将不可逆'
+          okType={'danger'}
+          onConfirm={batchDeleteChannels}
+          disabled={!enableBatchDelete}
+          position={'top'}
+        >
+          <Button
+            disabled={!enableBatchDelete}
+            theme='light'
+            type='danger'
+            style={{ marginRight: '10px', marginBottom: '10px' }}
+          >
+            删除所选通道
+          </Button>
+        </Popconfirm>
+        <Popconfirm
+          title='确定是否要修复数据库一致性？'
+          content='进行该操作时，可能导致渠道访问错误，请仅在数据库出现问题时使用'
+          okType={'warning'}
+          onConfirm={fixChannelsAbilities}
+          position={'top'}
+        >
+          <Button theme='light' type='secondary'
+            style={{ marginRight: '10px', marginBottom: '10px' }}>
+            修复数据库一致性
+          </Button>
+        </Popconfirm></div>
       <Table
         // className={'channel-table'}
-        style={{ marginTop: 15, 'white-space': 'nowrap' }}
+        style={{ 'white-space': 'nowrap' }}
         bordered={true}
-        size={isMobile() ? 'small' : 'default'}
+        size='small'
         columns={columns}
         dataSource={pageData}
         pagination={{
@@ -813,116 +901,6 @@ const ChannelsTable = () => {
             : null
         }
       />
-      {/* </div> */}
-      <div
-        style={{
-          display: isMobile() ? '' : 'flex',
-          marginTop: isMobile() ? 0 : -45,
-          zIndex: 999,
-          position: 'relative',
-          pointerEvents: 'none',
-        }}
-      >
-        <Space
-          style={{ pointerEvents: 'auto', marginTop: isMobile() ? 0 : 45 }}
-        >
-          <Button
-            theme='light'
-            type='primary'
-            style={{ marginRight: 8 }}
-            onClick={() => {
-              setEditingChannel({
-                id: undefined,
-              });
-              setShowEdit(true);
-            }}
-          >
-            添加渠道
-          </Button>
-          <Popconfirm
-            title='确定？'
-            okType={'warning'}
-            onConfirm={testAllChannels}
-            position={isMobile() ? 'top' : 'top'}
-          >
-            <Button theme='light' type='warning' style={{ marginRight: 8 }}>
-              测试所有通道
-            </Button>
-          </Popconfirm>
-          <Popconfirm
-            title='确定？'
-            okType={'secondary'}
-            onConfirm={updateAllChannelsBalance}
-          >
-            <Button theme='light' type='secondary' style={{ marginRight: 8 }}>
-              更新所有已启用通道余额
-            </Button>
-          </Popconfirm>
-          <Popconfirm
-            title='确定是否要删除禁用通道？'
-            content='此修改将不可逆'
-            okType={'danger'}
-            onConfirm={deleteAllDisabledChannels}
-          >
-            <Button theme='light' type='danger' style={{ marginRight: 8 }}>
-              删除禁用通道
-            </Button>
-          </Popconfirm>
-
-          <Button
-            theme='light'
-            type='primary'
-            style={{ marginRight: 8 }}
-            onClick={refresh}
-          >
-            刷新
-          </Button>
-        </Space>
-        {/*<div style={{width: '100%', pointerEvents: 'none', position: 'absolute'}}>*/}
-
-        {/*</div>*/}
-      </div>
-      <div style={{ marginTop: 20 }}>
-        <Space>
-          <Typography.Text strong>开启批量删除</Typography.Text>
-          <Switch
-            label='开启批量删除'
-            uncheckedText='关'
-            aria-label='是否开启批量删除'
-            onChange={(v) => {
-              setEnableBatchDelete(v);
-            }}
-          ></Switch>
-          <Popconfirm
-            title='确定是否要删除所选通道？'
-            content='此修改将不可逆'
-            okType={'danger'}
-            onConfirm={batchDeleteChannels}
-            disabled={!enableBatchDelete}
-            position={'top'}
-          >
-            <Button
-              disabled={!enableBatchDelete}
-              theme='light'
-              type='danger'
-              style={{ marginRight: 8 }}
-            >
-              删除所选通道
-            </Button>
-          </Popconfirm>
-          <Popconfirm
-            title='确定是否要修复数据库一致性？'
-            content='进行该操作时，可能导致渠道访问错误，请仅在数据库出现问题时使用'
-            okType={'warning'}
-            onConfirm={fixChannelsAbilities}
-            position={'top'}
-          >
-            <Button theme='light' type='secondary' style={{ marginRight: 8 }}>
-              修复数据库一致性
-            </Button>
-          </Popconfirm>
-        </Space>
-      </div>
     </>
   );
 };

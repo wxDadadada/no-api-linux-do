@@ -377,7 +377,7 @@ const LogsTable = () => {
                 <Table
                     style={{ marginTop: 15, 'white-space': 'nowrap' }}
                     bordered={true}
-                    size={isMobile() ? 'small' : 'default'}
+                    size='small'
                     columns={columns}
                     dataSource={pageData}
                     pagination={{
