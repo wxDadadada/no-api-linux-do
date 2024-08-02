@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  isMobile,
   API,
   copy, getTodayStartTimestamp,
   isAdmin,
@@ -9,6 +10,7 @@ import {
 } from '../helpers';
 
 import {
+  Collapsible,
   Avatar,
   Button,
   Form,
@@ -29,7 +31,7 @@ import {
   stringToColor,
 } from '../helpers/render';
 import Paragraph from '@douyinfe/semi-ui/lib/es/typography/paragraph';
-import {getLogOther} from "../helpers/other.js";
+import { getLogOther } from "../helpers/other.js";
 
 const { Header } = Layout;
 
@@ -147,24 +149,24 @@ function renderFirstUseTime(type) {
   time = time.toFixed(1)
   if (time < 3) {
     return (
-        <Tag color='green' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+      <Tag color='green' size='large'>
+        {' '}
+        {time} s{' '}
+      </Tag>
     );
   } else if (time < 10) {
     return (
-        <Tag color='orange' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+      <Tag color='orange' size='large'>
+        {' '}
+        {time} s{' '}
+      </Tag>
     );
   } else {
     return (
-        <Tag color='red' size='large'>
-          {' '}
-          {time} s{' '}
-        </Tag>
+      <Tag color='red' size='large'>
+        {' '}
+        {time} s{' '}
+      </Tag>
     );
   }
 }
@@ -281,22 +283,22 @@ const LogsTable = () => {
         if (record.is_stream) {
           let other = getLogOther(record.other);
           return (
-              <div>
-                <Space>
-                  {renderUseTime(text)}
-                  {renderFirstUseTime(other.frt)}
-                  {renderIsStream(record.is_stream)}
-                </Space>
-              </div>
+            <div>
+              <Space>
+                {renderUseTime(text)}
+                {renderFirstUseTime(other.frt)}
+                {renderIsStream(record.is_stream)}
+              </Space>
+            </div>
           );
         } else {
           return (
-              <div>
-                <Space>
-                  {renderUseTime(text)}
-                  {renderIsStream(record.is_stream)}
-                </Space>
-              </div>
+            <div>
+              <Space>
+                {renderUseTime(text)}
+                {renderIsStream(record.is_stream)}
+              </Space>
+            </div>
           );
         }
       },
@@ -564,7 +566,7 @@ const LogsTable = () => {
     setActivePage(page);
     if (page === Math.ceil(logs.length / pageSize) + 1) {
       // In this case we have to load more data and then append them.
-      loadLogs(page - 1, pageSize, logType).then((r) => {});
+      loadLogs(page - 1, pageSize, logType).then((r) => { });
     }
   };
 
@@ -627,6 +629,27 @@ const LogsTable = () => {
     setSearching(false);
   };
 
+  //折叠
+  const [isOpen, setOpen] = useState(false);
+  const maskStyle = isOpen
+    ? {}
+    : {
+      WebkitMaskImage:
+        'linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0.2) 80%, transparent 100%)',
+    };
+  const toggle = () => {
+    setOpen(!isOpen);
+  };
+  const linkStyle = {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+    bottom: -10,
+    fontWeight: 700,
+    cursor: 'pointer',
+  };
+
   return (
     <>
       <Layout>
@@ -645,87 +668,80 @@ const LogsTable = () => {
             </Space>
           </Spin>
         </Header>
-        <Form layout='horizontal' style={{ marginTop: 10 }}>
+        {/* <div style={{ position: 'relative' }}>
+          <Collapsible isOpen={isOpen} collapseHeight={60} style={{ ...maskStyle }}> */}
+        <Form layout='horizontal' labelPosition='inset' style={{ marginTop: 15 }}>
           <>
-            <Form.Input
-              field='token_name'
-              label='令牌名称'
-              style={{ width: 176 }}
-              value={token_name}
-              placeholder={'可选值'}
-              name='token_name'
-              onChange={(value) => handleInputChange(value, 'token_name')}
-            />
-            <Form.Input
-              field='model_name'
-              label='模型名称'
-              style={{ width: 176 }}
-              value={model_name}
-              placeholder='可选值'
-              name='model_name'
-              onChange={(value) => handleInputChange(value, 'model_name')}
-            />
-            <Form.DatePicker
-              field='start_timestamp'
-              label='起始时间'
-              style={{ width: 272 }}
-              initValue={start_timestamp}
-              value={start_timestamp}
-              type='dateTime'
-              name='start_timestamp'
-              onChange={(value) => handleInputChange(value, 'start_timestamp')}
-            />
-            <Form.DatePicker
-              field='end_timestamp'
-              fluid
-              label='结束时间'
-              style={{ width: 272 }}
-              initValue={end_timestamp}
-              value={end_timestamp}
-              type='dateTime'
-              name='end_timestamp'
-              onChange={(value) => handleInputChange(value, 'end_timestamp')}
-            />
             {isAdminUser && (
               <>
-                <Form.Input
-                  field='channel'
-                  label='渠道 ID'
-                  style={{ width: 176 }}
-                  value={channel}
-                  placeholder='可选值'
+                <Form.Input field='channel' label='渠道' style={{ width: '250px', marginBottom: '10px' }}
+                  value={channel} placeholder='可选值'
                   name='channel'
                   onChange={(value) => handleInputChange(value, 'channel')}
                 />
-                <Form.Input
-                  field='username'
-                  label='用户名称'
-                  style={{ width: 176 }}
-                  value={username}
-                  placeholder={'可选值'}
+                <Form.Input field='username' label='用户' style={{ width: '250px', marginBottom: '10px' }}
+                  value={username} placeholder={'可选值'}
                   name='username'
                   onChange={(value) => handleInputChange(value, 'username')}
                 />
               </>
             )}
-            <Button
-              label='查询'
-              type='primary'
-              htmlType='submit'
-              className='btn-margin-right'
-              onClick={refresh}
-              loading={loading}
-              style={{ marginTop: 24 }}
-            >
-              查询
-            </Button>
-            <Form.Section>
-
-            </Form.Section>
+            <Form.Input field='token_name' label='令牌' style={{ width: '250px', marginBottom: '10px' }}
+              value={token_name} placeholder={'可选值'}
+              name='token_name'
+              onChange={(value) => handleInputChange(value, 'token_name')}
+            />
+            <Form.Input field='model_name' label='模型' style={{ width: '250px', marginBottom: '10px' }}
+              value={model_name} placeholder='可选值'
+              name='model_name'
+              onChange={(value) => handleInputChange(value, 'model_name')}
+            />
+            <Form.DatePicker field='start_timestamp' label='起始时间' style={{ width: '250px', marginBottom: '10px' }}
+              initValue={start_timestamp}
+              value={start_timestamp} type='dateTime'
+              name='start_timestamp'
+              onChange={(value) => handleInputChange(value, 'start_timestamp')}
+            />
+            <Form.DatePicker field='end_timestamp' fluid label='结束时间' style={{ width: '250px', marginBottom: '10px' }}
+              initValue={end_timestamp}
+              value={end_timestamp} type='dateTime'
+              name='end_timestamp'
+              onChange={(value) => handleInputChange(value, 'end_timestamp')}
+            />
+            <Button label='查询' type='primary' htmlType='submit' className='btn-margin-right' onClick={refresh} loading={loading} style={{ marginBottom: '10px' }}>查询</Button>
           </>
         </Form>
+        <Select
+          defaultValue='0'
+          insetLabel={'类型'}
+          placeholder='类型'
+          style={{ width: '250px', marginBottom: '10px' }}
+          onChange={(value) => {
+            setLogType(parseInt(value));
+            loadLogs(0, pageSize, parseInt(value));
+          }}
+        >
+          <Select.Option value='0'>全部</Select.Option>
+          <Select.Option value='1'>充值</Select.Option>
+          <Select.Option value='2'>消费</Select.Option>
+          <Select.Option value='3'>管理</Select.Option>
+          <Select.Option value='4'>系统</Select.Option>
+        </Select>
+        {/* </Collapsible>
+          {isOpen ? (
+            <a onClick={toggle} style={{ ...linkStyle }}>
+              收起
+            </a>
+          ) : (
+            <a onClick={toggle} style={{ ...linkStyle }}>
+              展开
+            </a>
+          )}
+        </div> */}
         <Table
-          style={{ marginTop: 5 }}
+          style={{ marginTop: 15, 'white-space': 'nowrap' }}
+          bordered={true}
+          size={isMobile() ? 'small' : 'default'}
           columns={columns}
           dataSource={pageData}
           pagination={{
@@ -740,20 +756,6 @@ const LogsTable = () => {
             onPageChange: handlePageChange,
           }}
         />
-        <Select
-          defaultValue='0'
-          style={{ width: 120 }}
-          onChange={(value) => {
-            setLogType(parseInt(value));
-            loadLogs(0, pageSize, parseInt(value));
-          }}
-        >
-          <Select.Option value='0'>全部</Select.Option>
-          <Select.Option value='1'>充值</Select.Option>
-          <Select.Option value='2'>消费</Select.Option>
-          <Select.Option value='3'>管理</Select.Option>
-          <Select.Option value='4'>系统</Select.Option>
-        </Select>
       </Layout>
     </>
   );

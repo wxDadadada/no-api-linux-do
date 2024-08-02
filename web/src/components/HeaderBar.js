@@ -267,33 +267,10 @@ const HeaderBar = () => {
       { node: 'item', name: '对话日志', type: 'tertiary', icon: <IconChangelog />, onClick: () => redirectTo('/console/log') },
       { node: 'item', name: '绘画日志', type: 'tertiary', icon: <IconImage />, onClick: () => redirectTo('/console/midjourney'), className: localStorage.getItem('enable_drawing') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
       { node: 'item', name: '异步任务', type: 'tertiary', icon: <IconSlider />, onClick: () => redirectTo('/console/task'), className: localStorage.getItem('enable_task') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
-      // {
-      //   text: '模型',
-      //   itemKey: 'pricing',
-      //   to: '/pricing',
-      //   icon: <IconBanner />,
-      // },
-      // {
-      //   text: '设置',
-      //   itemKey: 'setting',
-      //   to: '/setting',
-      //   icon: <IconConfig />,
-      // },
-      // {
-      //   text: '关于',
-      //   itemKey: 'about',
-      //   to: '/about',
-      //   icon: <IconFaq />
-      // }
     ];
 
     return (
-      <Dropdown trigger={'click'} position={'bottomLeft'} menu={menu}>
-        {/* <Nav.Item
-          text={'控制台'}
-          icon={<IconToken />}
-          style={{ 'background-color': 'transparent' }}
-        /> */}
+      <Dropdown trigger={'click'} position={'bottomLeft'} clickToHide={true} menu={menu}>
         <IconToken size='extra-large' />
       </Dropdown>
     );
@@ -302,7 +279,11 @@ const HeaderBar = () => {
   return (
     <>
       <Layout>
-        <div style={{ width: '100%' }}>
+        <div style={{ 
+          position: 'sticky',
+          top: 0,
+          zIndex: 999 
+        }}>
           <Nav
             mode={'horizontal'}
             selectedKeys={selectedKeys}

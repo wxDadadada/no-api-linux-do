@@ -5,9 +5,9 @@ import { Layout } from '@douyinfe/semi-ui';
 const Redemption = () => (
   <>
     <Layout>
-      <Layout.Header>
+      {/* <Layout.Header>
         <h3>管理兑换码</h3>
-      </Layout.Header>
+      </Layout.Header> */}
       <Layout.Content>
         <RedemptionsTable />
       </Layout.Content>

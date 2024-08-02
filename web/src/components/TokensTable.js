@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  isMobile,
   API,
   copy,
   showError,
@@ -544,13 +545,13 @@ const TokensTable = () => {
     setActivePage(page);
     if (page === Math.ceil(tokens.length / pageSize) + 1) {
       // In this case we have to load more data and then append them.
-      loadTokens(page - 1).then((r) => {});
+      loadTokens(page - 1).then((r) => { });
     }
   };
 
   const rowSelection = {
-    onSelect: (record, selected) => {},
-    onSelectAll: (selected, selectedRows) => {},
+    onSelect: (record, selected) => { },
+    onSelectAll: (selected, selectedRows) => { },
     onChange: (selectedRowKeys, selectedRows) => {
       setSelectedKeys(selectedRows);
     },
@@ -579,12 +580,13 @@ const TokensTable = () => {
       <Form
         layout='horizontal'
         style={{ marginTop: 10 }}
-        labelPosition={'left'}
+        labelPosition='inset'
       >
         <Form.Input
           field='keyword'
           label='搜索关键字'
           placeholder='令牌名称'
+          style={{ width: '250px', marginBottom: '10px' }}
           value={searchKeyword}
           loading={searching}
           onChange={handleKeywordChange}
@@ -593,6 +595,7 @@ const TokensTable = () => {
           field='token'
           label='Key'
           placeholder='密钥'
+          style={{ width: '250px', marginBottom: '10px' }}
           value={searchToken}
           loading={searching}
           onChange={handleSearchTokenChange}
@@ -600,37 +603,15 @@ const TokensTable = () => {
         <Button
           label='查询'
           type='primary'
+          style={{ marginBottom: '10px' }}
           htmlType='submit'
           className='btn-margin-right'
           onClick={searchTokens}
-          style={{ marginRight: 8 }}
         >
           查询
         </Button>
       </Form>
-
-      <Table
-        style={{ marginTop: 20 }}
-        columns={columns}
-        dataSource={pageData}
-        pagination={{
-          currentPage: activePage,
-          pageSize: pageSize,
-          total: tokenCount,
-          showSizeChanger: true,
-          pageSizeOptions: [10, 20, 50, 100],
-          formatPageText: (page) =>
-            `第 ${page.currentStart} - ${page.currentEnd} 条，共 ${tokens.length} 条`,
-          onPageSizeChange: (size) => {
-            setPageSize(size);
-            setActivePage(1);
-          },
-          onPageChange: handlePageChange,
-        }}
-        loading={loading}
-        rowSelection={rowSelection}
-        onRow={handleRow}
-      ></Table>
+      
       <Button
         theme='light'
         type='primary'
@@ -662,6 +643,31 @@ const TokensTable = () => {
       >
         复制所选令牌到剪贴板
       </Button>
+
+      <Table
+        style={{ marginTop: 15, 'white-space': 'nowrap' }}
+        bordered={true}
+        size={isMobile() ? 'small' : 'default'}
+        columns={columns}
+        dataSource={pageData}
+        pagination={{
+          currentPage: activePage,
+          pageSize: pageSize,
+          total: tokenCount,
+          showSizeChanger: true,
+          pageSizeOptions: [10, 20, 50, 100],
+          formatPageText: (page) =>
+            `第 ${page.currentStart} - ${page.currentEnd} 条，共 ${tokens.length} 条`,
+          onPageSizeChange: (size) => {
+            setPageSize(size);
+            setActivePage(1);
+          },
+          onPageChange: handlePageChange,
+        }}
+        loading={loading}
+        rowSelection={rowSelection}
+        onRow={handleRow}
+      ></Table>
     </>
   );
 };

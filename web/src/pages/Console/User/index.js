@@ -5,9 +5,9 @@ import { Layout } from '@douyinfe/semi-ui';
 const User = () => (
   <>
     <Layout>
-      <Layout.Header>
+      {/* <Layout.Header>
         <h3>管理用户</h3>
-      </Layout.Header>
+      </Layout.Header> */}
       <Layout.Content>
         <UsersTable />
       </Layout.Content>

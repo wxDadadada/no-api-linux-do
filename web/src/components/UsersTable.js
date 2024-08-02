@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { API, showError, showSuccess } from '../helpers';
+import { isMobile, API, showError, showSuccess } from '../helpers';
 import {
   Button,
   Form,
@@ -384,7 +384,7 @@ const UsersTable = () => {
     setActivePage(page);
     if (page === Math.ceil(users.length / ITEMS_PER_PAGE) + 1) {
       // In this case we have to load more data and then append them.
-      loadUsers(page - 1).then((r) => {});
+      loadUsers(page - 1).then((r) => { });
     }
   };
 
@@ -444,20 +444,15 @@ const UsersTable = () => {
         handleClose={closeEditUser}
         editingUser={editingUser}
       ></EditUser>
-      <Form
-        onSubmit={() => {
-          searchUsers(searchKeyword, searchGroup);
-        }}
-        labelPosition='left'
-      >
-        <div style={{ display: 'flex' }}>
-          <Space>
+      <Form layout='horizontal' labelPosition='inset'>
+        <>
           <Form.Input
             label='搜索关键字'
+            style={{ width: '250px', marginBottom: '10px' }}
             icon='search'
             field='keyword'
             iconPosition='left'
-            placeholder='搜索用户的 ID，用户名，显示名称，以及邮箱地址 ...'
+            placeholder='支持ID 用户名 邮箱'
             value={searchKeyword}
             loading={searching}
             onChange={(value) => handleKeywordChange(value)}
@@ -465,6 +460,7 @@ const UsersTable = () => {
           <Form.Select
             field='group'
             label='分组'
+            style={{ width: '250px', marginBottom: '10px' }}
             optionList={groupOptions}
             onChange={(value) => {
               setSearchGroup(value);
@@ -474,17 +470,19 @@ const UsersTable = () => {
           <Button
             label='查询'
             type='primary'
+            style={{ marginBottom: '10px' }}
             htmlType='submit'
             className='btn-margin-right'
-            style={{ marginRight: 8 }}
           >
             查询
           </Button>
-          </Space>
-        </div>
+        </>
       </Form>
 
       <Table
+        style={{ marginTop: 15, 'white-space': 'nowrap' }}
+        bordered={true}
+        size={isMobile() ? 'small' : 'default'}
         columns={columns}
         dataSource={pageData}
         pagination={{

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useMemo, useState } from 'react';
-import { API, copy, showError, showSuccess } from '../helpers';
+import { isMobile, API, copy, showError, showSuccess } from '../helpers';
 
 import {
   Banner,
@@ -46,37 +46,37 @@ function renderQuotaType(type) {
 function renderAvailable(available) {
   return available ? (
     <Popover
-        content={
-          <div style={{ padding: 8 }}>您的分组可以使用该模型</div>
-        }
-        position='top'
-        key={available}
-        style={{
-            backgroundColor: 'rgba(var(--semi-blue-4),1)',
-            borderColor: 'rgba(var(--semi-blue-4),1)',
-            color: 'var(--semi-color-white)',
-            borderWidth: 1,
-            borderStyle: 'solid',
-        }}
+      content={
+        <div style={{ padding: 8 }}>您的分组可以使用该模型</div>
+      }
+      position='top'
+      key={available}
+      style={{
+        backgroundColor: 'rgba(var(--semi-blue-4),1)',
+        borderColor: 'rgba(var(--semi-blue-4),1)',
+        color: 'var(--semi-color-white)',
+        borderWidth: 1,
+        borderStyle: 'solid',
+      }}
     >
-        <IconVerify style={{ color: 'green' }}  size="large" />
+      <IconVerify style={{ color: 'green' }} size="large" />
     </Popover>
   ) : (
     <Popover
-        content={
-          <div style={{ padding: 8 }}>您的分组无权使用该模型</div>
-        }
-        position='top'
-        key={available}
-        style={{
-            backgroundColor: 'rgba(var(--semi-blue-4),1)',
-            borderColor: 'rgba(var(--semi-blue-4),1)',
-            color: 'var(--semi-color-white)',
-            borderWidth: 1,
-            borderStyle: 'solid',
-        }}
+      content={
+        <div style={{ padding: 8 }}>您的分组无权使用该模型</div>
+      }
+      position='top'
+      key={available}
+      style={{
+        backgroundColor: 'rgba(var(--semi-blue-4),1)',
+        borderColor: 'rgba(var(--semi-blue-4),1)',
+        color: 'var(--semi-color-white)',
+        borderWidth: 1,
+        borderStyle: 'solid',
+      }}
     >
-        <IconUploadError style={{ color: '#FFA54F' }}  size="large" />
+      <IconUploadError style={{ color: '#FFA54F' }} size="large" />
     </Popover>
   );
 }
@@ -89,12 +89,12 @@ const ModelPricing = () => {
   const [isModalOpenurl, setIsModalOpenurl] = useState(false);
 
   const rowSelection = useMemo(
-      () => ({
-          onChange: (selectedRowKeys, selectedRows) => {
-            setSelectedRowKeys(selectedRowKeys);
-          },
-      }),
-      []
+    () => ({
+      onChange: (selectedRowKeys, selectedRows) => {
+        setSelectedRowKeys(selectedRowKeys);
+      },
+    }),
+    []
   );
 
   const handleChange = (value) => {
@@ -168,19 +168,19 @@ const ModelPricing = () => {
     },
     {
       title: () => (
-        <span style={{'display':'flex','alignItems':'center'}}>
+        <span style={{ 'display': 'flex', 'alignItems': 'center' }}>
           倍率
           <Popover
             content={
-              <div style={{ padding: 8 }}>倍率是为了方便换算不同价格的模型<br/>点击查看倍率说明</div>
+              <div style={{ padding: 8 }}>倍率是为了方便换算不同价格的模型<br />点击查看倍率说明</div>
             }
             position='top'
             style={{
-                backgroundColor: 'rgba(var(--semi-blue-4),1)',
-                borderColor: 'rgba(var(--semi-blue-4),1)',
-                color: 'var(--semi-color-white)',
-                borderWidth: 1,
-                borderStyle: 'solid',
+              backgroundColor: 'rgba(var(--semi-blue-4),1)',
+              borderColor: 'rgba(var(--semi-blue-4),1)',
+              color: 'var(--semi-color-white)',
+              borderWidth: 1,
+              borderStyle: 'solid',
             }}
           >
             <IconHelpCircle
@@ -317,18 +317,18 @@ const ModelPricing = () => {
             description={`您还未登陆，显示的价格为默认分组倍率: ${groupRatio}`}
           />
         )}
-        <br/>
-        <Banner 
-            type="info"
-            fullMode={false}
-            description={<div>按量计费费用 = 分组倍率 × 模型倍率 × （提示token数 + 补全token数 × 补全倍率）/ 500000 （单位：美元）</div>}
-            closeIcon="null"
+        <br />
+        <Banner
+          type="info"
+          fullMode={false}
+          description={<div>按量计费费用 = 分组倍率 × 模型倍率 × （提示token数 + 补全token数 × 补全倍率）/ 500000 （单位：美元）</div>}
+          closeIcon="null"
         />
-        <br/>
+        <br />
         <Button
           theme='light'
           type='tertiary'
-          style={{width: 150}}
+          style={{ width: 150 }}
           onClick={() => {
             copyText(selectedRowKeys);
           }}
@@ -337,7 +337,9 @@ const ModelPricing = () => {
           复制选中模型
         </Button>
         <Table
-          style={{ marginTop: 5 }}
+          style={{ marginTop: 15, 'white-space': 'nowrap' }}
+          bordered={true}
+          size={isMobile() ? 'small' : 'default'}
           columns={columns}
           dataSource={models}
           loading={loading}

@@ -5,9 +5,9 @@ import { Layout } from '@douyinfe/semi-ui';
 const File = () => (
   <>
     <Layout>
-      <Layout.Header>
+      {/* <Layout.Header>
         <h3>管理渠道</h3>
-      </Layout.Header>
+      </Layout.Header> */}
       <Layout.Content>
         <ChannelsTable />
       </Layout.Content>

@@ -63,25 +63,50 @@ const { Sider, Content, Header } = Layout;
 
 function LayoutWithConditionalSider() {
   const location = useLocation();
-
   return (
     <Layout>
-      {!isMobile() &&
-        (
-          location.pathname.startsWith('/console') && (
-            <Sider>
-              <SiderBar />
-            </Sider>
+      <Header style={{
+        height: '60px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 999 
+      }}>
+        <HeaderBar />
+      </Header>
+      <Layout style={{
+        height: 'calc(100vh - 60px)'
+      }}>
+        {!isMobile() &&
+          (
+            location.pathname.startsWith('/console') && (
+              <Sider style={{
+                height: 'calc(100vh - 60px)'
+              }}>
+                <SiderBar />
+              </Sider>
+            )
           )
-        )
-      }
-      <Content
-        style={{
-          padding: '24px',
-        }}
-      >
-        <App />
-      </Content>
+        }
+        <Layout
+            style={{
+              overflowY: 'auto'
+            }}
+          >
+          <Content
+            style={{
+              padding: '24px'
+            }}
+          >
+            <App />
+          </Content>
+      <Layout.Footer  style={{
+        height: '60px'
+      }}>
+        <Footer></Footer>
+      </Layout.Footer>
+        </Layout>
+      </Layout>
+      <ToastContainer />
     </Layout>
   );
 }
@@ -90,37 +115,10 @@ function Main() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <Header>
-          <HeaderBar />
-        </Header>
         <Routes>
           <Route path="*" element={<LayoutWithConditionalSider />} />
         </Routes>
-        <Layout.Footer
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '20px',
-            color: 'var(--semi-color-text-2)',
-            backgroundColor: 'rgba(var(--semi-grey-0), 1)',
-          }}
-        >
-          {/* <span
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <span>Copyright © 2019 ByteDance. All Rights Reserved. </span>
-          </span>
-          <span>
-            <span style={{ marginRight: '24px' }}>平台客服</span>
-            <span>反馈建议</span>
-          </span> */}
-          <Footer />
-        </Layout.Footer>
       </ThemeProvider>
-      <ToastContainer />
     </BrowserRouter>
   );
 }

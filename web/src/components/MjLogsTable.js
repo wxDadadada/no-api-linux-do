@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  isMobile,
   API,
   copy,
   isAdmin,
@@ -239,7 +240,7 @@ const renderTimestamp = (timestampInSeconds) => {
 // 修改renderDuration函数以包含颜色逻辑
 function renderDuration(submit_time, finishTime) {
   // 确保startTime和finishTime都是有效的时间戳
-  if (!submit_time || !finishTime) return 'N/A'; 
+  if (!submit_time || !finishTime) return 'N/A';
 
   // 将时间戳转换为Date对象
   const start = new Date(submit_time);
@@ -523,7 +524,7 @@ const LogsTable = () => {
     setActivePage(page);
     if (page === Math.ceil(logs.length / ITEMS_PER_PAGE) + 1) {
       // In this case we have to load more data and then append them.
-      loadLogs(page - 1).then((r) => {});
+      loadLogs(page - 1).then((r) => { });
     }
   };
 
@@ -564,63 +565,35 @@ const LogsTable = () => {
         ) : (
           <></>
         )}
-        <Form layout='horizontal' style={{ marginTop: 10 }}>
+        <Form layout='horizontal' labelPosition='inset'>
           <>
-            <Form.Input
-              field='channel_id'
-              label='渠道 ID'
-              style={{ width: 176 }}
-              value={channel_id}
-              placeholder={'可选值'}
-              name='channel_id'
+            <Form.Input field='channel_id' label='渠道' style={{ width: '250px', marginBottom: '10px' }} value={channel_id}
+              placeholder={'可选值'} name='channel_id'
               onChange={(value) => handleInputChange(value, 'channel_id')}
             />
-            <Form.Input
-              field='mj_id'
-              label='任务 ID'
-              style={{ width: 176 }}
-              value={mj_id}
-              placeholder='可选值'
-              name='mj_id'
+            <Form.Input field='mj_id' label='任务 ID' style={{ width: '250px', marginBottom: '10px' }} value={mj_id}
+              placeholder='可选值' name='mj_id'
               onChange={(value) => handleInputChange(value, 'mj_id')}
             />
-            <Form.DatePicker
-              field='start_timestamp'
-              label='起始时间'
-              style={{ width: 272 }}
+            <Form.DatePicker field='start_timestamp' label='起始时间' style={{ width: '250px', marginBottom: '10px' }}
               initValue={start_timestamp}
-              value={start_timestamp}
-              type='dateTime'
+              value={start_timestamp} type='dateTime'
               name='start_timestamp'
               onChange={(value) => handleInputChange(value, 'start_timestamp')}
             />
-            <Form.DatePicker
-              field='end_timestamp'
-              fluid
-              label='结束时间'
-              style={{ width: 272 }}
+            <Form.DatePicker field='end_timestamp' fluid label='结束时间' style={{ width: '250px', marginBottom: '10px' }}
               initValue={end_timestamp}
-              value={end_timestamp}
-              type='dateTime'
+              value={end_timestamp} type='dateTime'
               name='end_timestamp'
               onChange={(value) => handleInputChange(value, 'end_timestamp')}
             />
-
-            <Form.Section>
-              <Button
-                label='查询'
-                type='primary'
-                htmlType='submit'
-                className='btn-margin-right'
-                onClick={refresh}
-              >
-                查询
-              </Button>
-            </Form.Section>
+            <Button label='查询' type='primary' htmlType='submit' className='btn-margin-right' onClick={refresh} style={{ marginBottom: '10px' }}>查询</Button>
           </>
         </Form>
         <Table
-          style={{ marginTop: 5 }}
+          style={{ marginTop: 15, 'white-space': 'nowrap' }}
+          bordered={true}
+          size={isMobile() ? 'small' : 'default'}
           columns={columns}
           dataSource={pageData}
           pagination={{

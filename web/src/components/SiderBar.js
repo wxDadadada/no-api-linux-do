@@ -123,12 +123,6 @@ const SiderBar = () => {
         to: '/topup',
         icon: <IconToast />,
       },
-      // {
-      //   text: '模型价格',
-      //   itemKey: 'pricing',
-      //   to: '/pricing',
-      //   icon: <IconBanner />,
-      // },
       {
         text: '用户管理',
         itemKey: 'user',
@@ -177,19 +171,7 @@ const SiderBar = () => {
                 : 'tableHiddle',
           }
         ]
-      },
-      // {
-      //   text: '设置',
-      //   itemKey: 'setting',
-      //   to: '/setting',
-      //   icon: <IconConfig />,
-      // },
-      // {
-      //   text: '关于',
-      //   itemKey: 'about',
-      //   to: '/about',
-      //   icon: <IconFaq />
-      // }
+      }
     ],
     [
       localStorage.getItem('enable_data_export'),
@@ -218,7 +200,7 @@ const SiderBar = () => {
     loadStatus().then(() => {
       setIsCollapsed(
         isMobile() ||
-          localStorage.getItem('default_collapse_sidebar') === 'true',
+        localStorage.getItem('default_collapse_sidebar') === 'true',
       );
     });
     let localKey = window.location.pathname.split('/')[1];
@@ -231,15 +213,13 @@ const SiderBar = () => {
   return (
     <>
       <Layout>
-        <div style={{ height: '100%' }}>
+        <div style={{
+          height: 'calc(100vh - 60px)'
+        }}>
           <Nav
             defaultOpenKeys={['logs']}
-            // bodyStyle={{ maxWidth: 200 }}
+            bodyStyle={{ maxWidth: 200 }}
             style={{ maxWidth: 200 }}
-            // defaultIsCollapsed={
-            //   isMobile() ||
-            //   localStorage.getItem('default_collapse_sidebar') === 'true'
-            // }
             isCollapsed={isCollapsed}
             onCollapseChange={(collapsed) => {
               setIsCollapsed(collapsed);
@@ -259,15 +239,6 @@ const SiderBar = () => {
             onSelect={(key) => {
               setSelectedKeys([key.itemKey]);
             }}
-            // header={{
-            //   logo: (
-            //     <img src={logo} alt='logo' style={{ marginRight: '0.75em' }} />
-            //   ),
-            //   text: systemName,
-            // }}
-            // footer={{
-            //   text: '© 2021 NekoAPI',
-            // }}
           >
             <Nav.Footer collapseButton={true}></Nav.Footer>
           </Nav>

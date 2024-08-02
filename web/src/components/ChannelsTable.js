@@ -17,6 +17,7 @@ import {
   renderQuota,
 } from '../helpers/render';
 import {
+  Card,
   Button,
   Dropdown,
   Form,
@@ -57,25 +58,17 @@ function renderType(type) {
 
 const ChannelsTable = () => {
   const columns = [
-    // {
-    //     title: '',
-    //     dataIndex: 'checkbox',
-    //     className: 'checkbox',
-    // },
     {
       title: 'ID',
-      dataIndex: 'id',
-      width: 20
+      dataIndex: 'id'
     },
     {
       title: '名称',
-      dataIndex: 'name',
-      width: 20
+      dataIndex: 'name'
     },
     {
       title: '分组',
       dataIndex: 'group',
-      width: 20,
       render: (text, record, index) => {
         return (
           <div>
@@ -91,7 +84,7 @@ const ChannelsTable = () => {
     {
       title: '类型',
       dataIndex: 'type',
-      width: 20,
+      width: 150,
       render: (text, record, index) => {
         return <div>{renderType(text)}</div>;
       },
@@ -99,7 +92,6 @@ const ChannelsTable = () => {
     {
       title: '状态',
       dataIndex: 'status',
-      width: 20,
       render: (text, record, index) => {
         if (text === 3) {
           if (record.other_info === '') {
@@ -123,7 +115,6 @@ const ChannelsTable = () => {
     {
       title: '响应时间',
       dataIndex: 'response_time',
-      width: 20,
       render: (text, record, index) => {
         return <div>{renderResponseTime(text)}</div>;
       },
@@ -131,7 +122,6 @@ const ChannelsTable = () => {
     {
       title: '已用/剩余',
       dataIndex: 'expired_time',
-      width: 20,
       render: (text, record, index) => {
         return (
           <div>
@@ -161,7 +151,6 @@ const ChannelsTable = () => {
     {
       title: '优先级',
       dataIndex: 'priority',
-      width: 20,
       render: (text, record, index) => {
         return (
           <div>
@@ -183,7 +172,6 @@ const ChannelsTable = () => {
     {
       title: '权重',
       dataIndex: 'weight',
-      width: 20,
       render: (text, record, index) => {
         return (
           <div>
@@ -203,7 +191,7 @@ const ChannelsTable = () => {
       },
     },
     {
-      title: '',
+      title: '操作',
       dataIndex: 'operate',
       render: (text, record, index) => (
         <div>
@@ -359,7 +347,7 @@ const ChannelsTable = () => {
     // if (channels.length >= pageSize) {
     //   setChannelCount(channels.length + pageSize);
     // } else {
-      setChannelCount(channels.length);
+    setChannelCount(channels.length);
     // }
   };
 
@@ -727,50 +715,53 @@ const ChannelsTable = () => {
         onSubmit={() => {
           searchChannels(searchKeyword, searchGroup, searchModel);
         }}
-        labelPosition='left'
+        layout='horizontal'
+        labelPosition='inset'
+      // labelPosition='left'
       >
-        <div style={{ display: 'flex' }}>
-          <Space>
-            <Form.Input
-              field='search_keyword'
-              label='搜索渠道关键词'
-              placeholder='ID，名称和密钥 ...'
-              value={searchKeyword}
-              loading={searching}
-              onChange={(v) => {
-                setSearchKeyword(v.trim());
-              }}
-            />
-            <Form.Input
-              field='search_model'
-              label='模型'
-              placeholder='模型关键字'
-              value={searchModel}
-              loading={searching}
-              onChange={(v) => {
-                setSearchModel(v.trim());
-              }}
-            />
-            <Form.Select
-              field='group'
-              label='分组'
-              optionList={groupOptions}
-              onChange={(v) => {
-                setSearchGroup(v);
-                searchChannels(searchKeyword, v, searchModel);
-              }}
-            />
-            <Button
-              label='查询'
-              type='primary'
-              htmlType='submit'
-              className='btn-margin-right'
-              style={{ marginRight: 8 }}
-            >
-              查询
-            </Button>
-          </Space>
-        </div>
+        <>
+          <Form.Input
+            field='search_keyword'
+            label='搜索关键词'
+            placeholder='ID，名称和密钥 ...'
+            style={{ width: '250px', marginBottom: '10px' }} 
+            value={searchKeyword}
+            loading={searching}
+            onChange={(v) => {
+              setSearchKeyword(v.trim());
+            }}
+          />
+          <Form.Input
+            field='search_model'
+            label='模型'
+            placeholder='模型关键字'
+            style={{ width: '250px', marginBottom: '10px' }} 
+            value={searchModel}
+            loading={searching}
+            onChange={(v) => {
+              setSearchModel(v.trim());
+            }}
+          />
+          <Form.Select
+            field='group'
+            label='分组'
+            optionList={groupOptions}
+            style={{ width: '250px', marginBottom: '10px' }} 
+            onChange={(v) => {
+              setSearchGroup(v);
+              searchChannels(searchKeyword, v, searchModel);
+            }}
+          />
+          <Button
+            label='查询'
+            type='primary'
+            style={{ marginBottom: '10px' }} 
+            htmlType='submit'
+            className='btn-margin-right'
+          >
+            查询
+          </Button>
+        </>
       </Form>
       <div style={{ marginTop: 10, display: 'flex' }}>
         <Space>
@@ -794,11 +785,11 @@ const ChannelsTable = () => {
           </Space>
         </Space>
       </div>
-      {/* <div style={{'overflow-x': 'auto'}}> */}
       <Table
-        className={'channel-table'}
-        style={{ marginTop: 15 }}
+        // className={'channel-table'}
+        style={{ marginTop: 15, 'white-space': 'nowrap' }}
         bordered={true}
+        size={isMobile() ? 'small' : 'default'}
         columns={columns}
         dataSource={pageData}
         pagination={{
@@ -810,15 +801,15 @@ const ChannelsTable = () => {
         }}
         loading={loading}
         onRow={handleRow}
-        // scroll={{x:1000}}
+        // scroll={{ x: true }}
         rowSelection={
           enableBatchDelete
             ? {
-                onChange: (selectedRowKeys, selectedRows) => {
-                  // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-                  setSelectedChannels(selectedRows);
-                },
-              }
+              onChange: (selectedRowKeys, selectedRows) => {
+                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                setSelectedChannels(selectedRows);
+              },
+            }
             : null
         }
       />

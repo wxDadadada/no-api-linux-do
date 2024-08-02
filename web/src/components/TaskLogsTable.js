@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Label } from 'semantic-ui-react';
-import { API, copy, isAdmin, showError, showSuccess, timestamp2string } from '../helpers';
+import { isMobile, API, copy, isAdmin, showError, showSuccess, timestamp2string } from '../helpers';
 
 import {
     Table,
@@ -9,7 +9,9 @@ import {
     Button,
     Layout,
     Modal,
-    Typography, Progress, Card
+    Typography,
+    Progress,
+    Card
 } from '@douyinfe/semi-ui';
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -222,7 +224,7 @@ const LogsTable = () => {
     const [inputs, setInputs] = useState({
         channel_id: '',
         task_id: '',
-        start_timestamp: timestamp2string(zeroNow.getTime() /1000),
+        start_timestamp: timestamp2string(zeroNow.getTime() / 1000),
         end_timestamp: '',
     });
     const { channel_id, task_id, start_timestamp, end_timestamp } = inputs;
@@ -248,7 +250,7 @@ const LogsTable = () => {
 
         let url = '';
         let localStartTimestamp = parseInt(Date.parse(start_timestamp) / 1000);
-        let localEndTimestamp = parseInt(Date.parse(end_timestamp) / 1000 );
+        let localEndTimestamp = parseInt(Date.parse(end_timestamp) / 1000);
         if (isAdminUser) {
             url = `/api/task/?p=${startIdx}&channel_id=${channel_id}&task_id=${task_id}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}`;
         } else {
@@ -350,38 +352,43 @@ const LogsTable = () => {
             <Layout>
                 <Form layout='horizontal' labelPosition='inset'>
                     <>
-                        {isAdminUser && <Form.Input field="channel_id" label='渠道 ID' style={{ width: '236px', marginBottom: '10px' }} value={channel_id}
-                                                    placeholder={'可选值'} name='channel_id'
-                                                    onChange={value => handleInputChange(value, 'channel_id')} />
+                        {isAdminUser && <Form.Input field="channel_id" label='渠道' style={{ width: '250px', marginBottom: '10px' }} value={channel_id}
+                            placeholder={'可选值'} name='channel_id'
+                            onChange={value => handleInputChange(value, 'channel_id')} />
                         }
-                        <Form.Input field="task_id" label={"任务 ID"} style={{ width: '236px', marginBottom: '10px' }} value={task_id}
+                        <Form.Input field="task_id" label={"任务 ID"} style={{ width: '250px', marginBottom: '10px' }} value={task_id}
                             placeholder={"可选值"}
                             name='task_id'
                             onChange={value => handleInputChange(value, 'task_id')} />
 
-                        <Form.DatePicker field="start_timestamp" label={"起始时间"} style={{ width: '236px', marginBottom: '10px' }}
+                        <Form.DatePicker field="start_timestamp" label={"起始时间"} style={{ width: '250px', marginBottom: '10px' }}
                             initValue={start_timestamp}
                             value={start_timestamp} type='dateTime'
                             name='start_timestamp'
                             onChange={value => handleInputChange(value, 'start_timestamp')} />
-                        <Form.DatePicker field="end_timestamp" fluid label={"结束时间"} style={{ width: '236px', marginBottom: '10px' }}
+                        <Form.DatePicker field="end_timestamp" fluid label={"结束时间"} style={{ width: '250px', marginBottom: '10px' }}
                             initValue={end_timestamp}
                             value={end_timestamp} type='dateTime'
                             name='end_timestamp'
                             onChange={value => handleInputChange(value, 'end_timestamp')} />
-                        <Button label={"查询"} type="primary" htmlType="submit" className="btn-margin-right"
-                            onClick={refresh}>查询</Button>
+                        <Button label={"查询"} type="primary" htmlType="submit" className="btn-margin-right" onClick={refresh} style={{ marginBottom: '10px' }}>查询</Button>
                     </>
                 </Form>
-                <Card>
-                    <Table columns={columns} dataSource={pageData} pagination={{
+                <Table
+                    style={{ marginTop: 15, 'white-space': 'nowrap' }}
+                    bordered={true}
+                    size={isMobile() ? 'small' : 'default'}
+                    columns={columns}
+                    dataSource={pageData}
+                    pagination={{
                         currentPage: activePage,
                         pageSize: ITEMS_PER_PAGE,
                         total: logCount,
                         pageSizeOpts: [10, 20, 50, 100],
                         onPageChange: handlePageChange,
-                    }} loading={loading} />
-                </Card>
+                    }}
+                    loading={loading}
+                />
                 <Modal
                     visible={isModalOpen}
                     onOk={() => setIsModalOpen(false)}

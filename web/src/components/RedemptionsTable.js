@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  isMobile,
   API,
   copy,
   showError,
@@ -343,7 +344,7 @@ const RedemptionsTable = () => {
     setActivePage(page);
     if (page === Math.ceil(redemptions.length / ITEMS_PER_PAGE) + 1) {
       // In this case we have to load more data and then append them.
-      loadRedemptions(page - 1).then((r) => {});
+      loadRedemptions(page - 1).then((r) => { });
     }
   };
 
@@ -352,8 +353,8 @@ const RedemptionsTable = () => {
     activePage * ITEMS_PER_PAGE,
   );
   const rowSelection = {
-    onSelect: (record, selected) => {},
-    onSelectAll: (selected, selectedRows) => {},
+    onSelect: (record, selected) => { },
+    onSelectAll: (selected, selectedRows) => { },
     onChange: (selectedRowKeys, selectedRows) => {
       setSelectedKeys(selectedRows);
     },
@@ -379,21 +380,26 @@ const RedemptionsTable = () => {
         visiable={showEdit}
         handleClose={closeEdit}
       ></EditRedemption>
-      <Form onSubmit={searchRedemptions}>
-        <Form.Input
-          label='搜索关键字'
-          field='keyword'
-          icon='search'
-          iconPosition='left'
-          placeholder='关键字(id或者名称)'
-          value={searchKeyword}
-          loading={searching}
-          onChange={handleKeywordChange}
-        />
+      <Form layout='horizontal' labelPosition='inset'>
+        <>
+          <Form.Input
+            label='搜索关键字'
+            field='keyword'
+            style={{ width: '250px', marginBottom: '10px' }}
+            icon='search'
+            iconPosition='left'
+            placeholder='关键字(id或者名称)'
+            value={searchKeyword}
+            loading={searching}
+            onChange={handleKeywordChange}
+          />
+        </>
       </Form>
 
       <Table
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 15, 'white-space': 'nowrap' }}
+        bordered={true}
+        size={isMobile() ? 'small' : 'default'}
         columns={columns}
         dataSource={pageData}
         pagination={{
