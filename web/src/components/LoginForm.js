@@ -202,10 +202,10 @@ const LoginForm = () => {
                   }}
                 >
                   <Text>
-                    没有账号请先 <Link to='/register'>注册账号</Link>
+                    <Link to='/register'>注册账号</Link>
                   </Text>
                   <Text>
-                    忘记密码 <Link to='/reset'>点击重置</Link>
+                    <Link to='/reset'>重置密码</Link>
                   </Text>
                 </div>
                 {status.github_oauth ||

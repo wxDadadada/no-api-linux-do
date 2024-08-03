@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import HeaderBar from './components/HeaderBar';
 import Footer from './components/Footer';
@@ -13,53 +12,11 @@ import { StatusProvider } from './context/Status';
 import { Layout } from '@douyinfe/semi-ui';
 import SiderBar from './components/SiderBar';
 import { ThemeProvider } from './context/Theme';
-
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-
-
 import { isMobile } from './helpers';
-
-// initialization
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const { Sider, Content, Header } = Layout;
-
-// const location = useLocation();
-// root.render(
-//   <React.StrictMode>
-//     <StatusProvider>
-//       <UserProvider>
-//         <BrowserRouter>
-//           <ThemeProvider>
-//             <Layout>
-//               <Layout>
-//                 <Header>
-//                   <HeaderBar />
-//                 </Header>
-//                 {location.pathname === '/console' && (
-//                   <Sider>
-//                     <SiderBar />
-//                   </Sider>
-//                 )}
-//                 <Content
-//                   style={{
-//                     padding: '24px',
-//                   }}
-//                 >
-//                   <App />
-//                 </Content>
-//                 <Layout.Footer>
-//                   <Footer></Footer>
-//                 </Layout.Footer>
-//               </Layout>
-//               <ToastContainer />
-//             </Layout>
-//           </ThemeProvider>
-//         </BrowserRouter>
-//       </UserProvider>
-//     </StatusProvider>
-//   </React.StrictMode>,
-// );
 
 function LayoutWithConditionalSider() {
   const location = useLocation();

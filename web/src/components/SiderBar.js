@@ -29,6 +29,7 @@ import '../index.css';
 // } from '@douyinfe/semi-icons';
 
 import {
+  IconProgress,
   IconToken,
   IconIntro,
   IconTree,
@@ -86,7 +87,7 @@ const SiderBar = () => {
         text: '仪表盘',
         itemKey: 'console',
         to: '/',
-        icon: <IconIntro />,
+        icon: <IconProgress />,
       },
       {
         text: '渠道管理',

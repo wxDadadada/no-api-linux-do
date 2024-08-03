@@ -6,8 +6,10 @@ import { StatusContext } from '../context/Status';
 import { API, getLogo, getSystemName, showSuccess, isAdmin, isMobile, showError } from '../helpers';
 import { setStatusData } from '../helpers/data.js';
 import {
+  IconInfoCircle,
   IconMoon,
   IconSun,
+  IconSendStroked,
   IconCalendarClock,
   IconChecklistStroked,
   IconComment,
@@ -25,6 +27,7 @@ import {
 } from '@douyinfe/semi-icons';
 
 import {
+  IconProgress,
   IconToken,
   IconIntro,
   IconTree,
@@ -40,9 +43,10 @@ import {
   IconSlider,
   IconConfig,
   IconFaq,
+  IconNavigation
 } from '@douyinfe/semi-icons-lab';
 
-import { Layout, Nav, Avatar, Dropdown, Switch, Tag } from '@douyinfe/semi-ui';
+import { Layout, Nav, Avatar, Dropdown, Button, Switch, Tag } from '@douyinfe/semi-ui';
 import { stringToColor } from '../helpers/render';
 import '../index.css';
 
@@ -250,18 +254,22 @@ const HeaderBar = () => {
     }
   }, []);
 
+
+  function redirectTo(route) {
+    navigate(route);
+  }
+
   function DropdownEvents() {
-    function redirectTo(route) {
-      navigate(route);
-    }
     const menu = [
-      { node: 'item', name: '仪表盘', type: 'tertiary', icon: <IconIntro />, onClick: () => redirectTo('/console') },
+      { node: 'item', name: '首页', type: 'tertiary', icon: <IconIntro />, onClick: () => redirectTo('/') },
+      { node: 'item', name: '仪表盘', type: 'tertiary', icon: <IconProgress />, onClick: () => redirectTo('/console') },
       { node: 'item', name: '渠道管理', type: 'tertiary', icon: <IconTree />, onClick: () => redirectTo('/console/channel') },
       { node: 'item', name: '在线聊天', type: 'tertiary', icon: <IconOverflow />, onClick: () => redirectTo('/console/chat'), className: localStorage.getItem('chat_link') ? 'semi-navigation-item-normal' : 'tableHiddle' },
       { node: 'item', name: '令牌管理', type: 'tertiary', icon: <IconTag />, onClick: () => redirectTo('/console/token') },
       { node: 'item', name: '兑换卡密', type: 'tertiary', icon: <IconCard />, onClick: () => redirectTo('/console/redemption'), className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle' },
       { node: 'item', name: '额度充值', type: 'tertiary', icon: <IconOverflow />, onClick: () => redirectTo('/console/topup') },
       { node: 'item', name: '用户管理', type: 'tertiary', icon: <IconAvatar />, onClick: () => redirectTo('/console/user'), className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      { node: 'item', name: '模型价格', type: 'tertiary', icon: <IconBanner />, onClick: () => redirectTo('/pricing') },
       { node: 'title', name: '日志' },
       { node: 'item', name: '统计图表', type: 'tertiary', icon: <IconPopover />, onClick: () => redirectTo('/console/detail'), className: localStorage.getItem('enable_data_export') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
       { node: 'item', name: '对话日志', type: 'tertiary', icon: <IconChangelog />, onClick: () => redirectTo('/console/log') },
@@ -270,19 +278,25 @@ const HeaderBar = () => {
     ];
 
     return (
-      <Dropdown trigger={'click'} position={'bottomLeft'} clickToHide={true} menu={menu}>
-        <IconToken size='extra-large' />
-      </Dropdown>
+      // <>
+        <Dropdown trigger={'click'} position={'bottomLeft'} clickToHide={true} menu={menu}>
+          <IconToken size='extra-large' />
+        </Dropdown>
+        
+      //   {/* <IconIntro size='large' onClick={() => redirectTo('/')} style={{'margin-left': '12px'}}/> */}
+      //   {/* <IconBanner size='large' onClick={() => redirectTo('/pricing')} style={{'margin-left': '12px'}}/> */}
+      //   {/* <IconIntro size='large' onClick={() => redirectTo('/')} style={{'margin-left': '12px'}}/> */}
+      // {/* </> */}
     );
   }
 
   return (
     <>
       <Layout>
-        <div style={{ 
-          position: 'sticky',
-          top: 0,
-          zIndex: 999 
+        <div style={{
+          // position: 'sticky',
+          // top: 0,
+          // zIndex: 999 
         }}>
           <Nav
             mode={'horizontal'}
@@ -310,18 +324,11 @@ const HeaderBar = () => {
                 text: '模型价格',
                 itemKey: 'pricing',
               },
-              {
-                text: '帮助中心',
-                itemKey: 'about'
-              }
-            ] : [
               // {
-              //   text: '控制台',
-              //   itemKey: 'console',
-              //   icon: <IconToken />,
-              //   items: headerButtons
+              //   text: '帮助中心',
+              //   itemKey: 'about'
               // }
-            ]}
+            ] : []}
             onSelect={(key) => {
               setSelectedKeys([key.itemKey]);
             }}
@@ -329,10 +336,10 @@ const HeaderBar = () => {
             header={
               <>
                 {!isMobile() ? (
-                  <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />
+                  <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} onClick={() => redirectTo('/')} />
                 ) : (
                   !location.pathname.startsWith('/console') ? (
-                    <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} />
+                    <img src={logo} alt='logo' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} onClick={() => redirectTo('/')} />
                   ) : (
                     DropdownEvents()
                   )
@@ -341,9 +348,7 @@ const HeaderBar = () => {
             }
             footer={
               <>
-                {/* <span>
-                  {!isMobile() && <Nav.Item itemKey={'about'} icon={<IconFaq />} />}
-                </span> */}
+                <IconInfoCircle size='large' onClick={() => redirectTo('/about')} />
                 <span
                   onClick={() => {
                     if (theme === 'dark') {
@@ -354,7 +359,7 @@ const HeaderBar = () => {
                   }}
                 >
                   <Nav.Item style={{ 'background-color': 'transparent' }}>
-                    {theme === 'dark' ? <IconSun /> : <IconMoon />}
+                    {theme === 'dark' ? <IconSun size='large' /> : <IconMoon size='large' />}
                   </Nav.Item>
                 </span>
 
@@ -367,6 +372,7 @@ const HeaderBar = () => {
                         icon={<IconToken />}
                         style={{ 'background-color': 'transparent' }}
                       />
+                      // <img src={<IconToken size='extra-large' />} alt='console' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} onClick={() => redirectTo('/console')} />
                     ) : (
                       <Dropdown
                         position='bottomRight'
@@ -382,7 +388,8 @@ const HeaderBar = () => {
                           color={stringToColor(userState.user.username)}
                           style={{ margin: 4 }}
                         >
-                          {userState.user.username[0]}
+                          {/* {userState.user.username[0]} */}
+                          <IconUser size='large' />
                         </Avatar>
                         {!isMobile() && <span>{userState.user.username}</span>}
                       </Dropdown>
@@ -390,20 +397,9 @@ const HeaderBar = () => {
 
                   </>
                 ) : (
-                  <>
-                    <Nav.Item
-                      text={'登录'}
-                      itemKey={'login'}
-                      icon={<IconKey />}
-                      style={{ 'background-color': 'transparent' }}
-                    />
-                    <Nav.Item
-                      text={'注册'}
-                      itemKey={'register'}
-                      icon={<IconUser />}
-                      style={{ 'background-color': 'transparent' }}
-                    />
-                  </>
+                  // <>
+                  <Button theme='solid' type='primary' onClick={() => redirectTo('/login')}>登录</Button>
+                  // </>
                 )}
               </>
             }

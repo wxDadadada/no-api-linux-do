@@ -183,10 +183,10 @@ const RegisterForm = () => {
                   }}
                 >
                   <Text>
-                    已有账户？
-                    <Link to="/login">
-                      点击登录
-                    </Link>
+                    <Link to="/login">返回登录</Link>
+                  </Text>
+                  <Text>
+                    <Link to='/reset'>重置密码</Link>
                   </Text>
                 </div>
               </Card>
