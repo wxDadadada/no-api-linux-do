@@ -745,11 +745,14 @@ const LogsTable = () => {
           columns={columns}
           dataSource={pageData}
           pagination={{
+            size: !isMobile() ? '' : 'small',
             currentPage: activePage,
             pageSize: pageSize,
             total: logCount,
-            pageSizeOpts: [10, 20, 50, 100],
+            formatPageText: (logCount) =>
+              `第 ${logCount.currentStart} - ${logCount.currentEnd} 条，共 ${logCount.total} 条`,
             showSizeChanger: true,
+            pageSizeOpts: [10, 20, 50, 100],
             onPageSizeChange: (size) => {
               handlePageSizeChange(size).then();
             },

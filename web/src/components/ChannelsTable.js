@@ -762,19 +762,6 @@ const ChannelsTable = () => {
           </Button>
         </>
       </Form>
-      <Button
-        theme='light'
-        type='primary'
-        style={{ marginRight: '10px', marginBottom: '10px' }}
-        onClick={() => {
-          setEditingChannel({
-            id: undefined,
-          });
-          setShowEdit(true);
-        }}
-      >
-        添加渠道
-      </Button>
       <Popconfirm
         title='确定？'
         okType={'warning'}
@@ -782,7 +769,7 @@ const ChannelsTable = () => {
         position={isMobile() ? 'top' : 'top'}
       >
         <Button theme='light' type='warning' style={{ marginRight: '10px', marginBottom: '10px' }}>
-          测试所有通道
+          测试所有渠道
         </Button>
       </Popconfirm>
       <Popconfirm
@@ -791,20 +778,21 @@ const ChannelsTable = () => {
         onConfirm={updateAllChannelsBalance}
       >
         <Button theme='light' type='secondary' style={{ marginRight: '10px', marginBottom: '10px' }}>
-          更新所有已启用通道余额
+          更新所有已启用渠道余额
         </Button>
       </Popconfirm>
       <Popconfirm
-        title='确定是否要删除禁用通道？'
-        content='此修改将不可逆'
-        okType={'danger'}
-        onConfirm={deleteAllDisabledChannels}
+        title='确定是否要修复数据库一致性？'
+        content='进行该操作时，可能导致渠道访问错误，请仅在数据库出现问题时使用'
+        okType={'warning'}
+        onConfirm={fixChannelsAbilities}
+        position={'top'}
       >
-        <Button theme='light' type='danger' style={{ marginRight: '10px', marginBottom: '10px' }}>
-          删除禁用通道
+        <Button theme='light' type='secondary'
+          style={{ marginRight: '10px', marginBottom: '10px' }}>
+          修复数据库一致性
         </Button>
       </Popconfirm>
-
       <Button
         theme='light'
         type='primary'
@@ -813,66 +801,77 @@ const ChannelsTable = () => {
       >
         刷新
       </Button>
-<div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      <Space style={{ marginRight: '10px', marginBottom: '10px' }}>
-            <Typography.Text strong>使用ID排序</Typography.Text>
-            <Switch
-              checked={idSort}
-              label='使用ID排序'
-              uncheckedText='关'
-              aria-label='是否用ID排序'
-              onChange={(v) => {
-                localStorage.setItem('id-sort', v + '');
-                setIdSort(v);
-                loadChannels(0, pageSize, v)
-                  .then()
-                  .catch((reason) => {
-                    showError(reason);
-                  });
-              }}
-            ></Switch>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <Space style={{ marginRight: '10px', marginBottom: '10px' }}>
+          <Typography.Text strong>使用ID排序</Typography.Text>
+          <Switch
+            checked={idSort}
+            label='使用ID排序'
+            uncheckedText='关'
+            aria-label='是否用ID排序'
+            onChange={(v) => {
+              localStorage.setItem('id-sort', v + '');
+              setIdSort(v);
+              loadChannels(0, pageSize, v)
+                .then()
+                .catch((reason) => {
+                  showError(reason);
+                });
+            }}
+          />
         </Space>
-      <Space style={{ marginRight: '10px', marginBottom: '10px' }}>
-        <Typography.Text strong>删除开关</Typography.Text>
-        <Switch
-          label='开启批量删除'
-          uncheckedText='关'
-          aria-label='是否开启批量删除'
-          onChange={(v) => {
-            setEnableBatchDelete(v);
+        {/* <Space style={{ marginRight: '10px', marginBottom: '10px' }}>
+          <Typography.Text strong>删除开关</Typography.Text>
+          <Switch
+            label='开启批量删除'
+            uncheckedText='关'
+            aria-label='是否开启批量删除'
+            onChange={(v) => {
+              setEnableBatchDelete(v);
+            }}
+          />
+        </Space> */}
+        <Button
+          theme='light'
+          type='primary'
+          style={{ marginRight: '10px', marginBottom: '10px' }}
+          onClick={() => {
+            setEditingChannel({
+              id: undefined,
+            });
+            setShowEdit(true);
           }}
-        ></Switch>
-
-      </Space>
+        >
+          添加渠道
+        </Button>
         <Popconfirm
-          title='确定是否要删除所选通道？'
+          title='确定是否要删除所选渠道？'
           content='此修改将不可逆'
           okType={'danger'}
           onConfirm={batchDeleteChannels}
-          disabled={!enableBatchDelete}
+          // disabled={!enableBatchDelete}
           position={'top'}
         >
           <Button
-            disabled={!enableBatchDelete}
+            // disabled={!enableBatchDelete}
             theme='light'
             type='danger'
             style={{ marginRight: '10px', marginBottom: '10px' }}
           >
-            删除所选通道
+            删除所选渠道
           </Button>
         </Popconfirm>
         <Popconfirm
-          title='确定是否要修复数据库一致性？'
-          content='进行该操作时，可能导致渠道访问错误，请仅在数据库出现问题时使用'
-          okType={'warning'}
-          onConfirm={fixChannelsAbilities}
-          position={'top'}
+          title='确定是否要删除禁用渠道？'
+          content='此修改将不可逆'
+          okType={'danger'}
+          onConfirm={deleteAllDisabledChannels}
         >
-          <Button theme='light' type='secondary'
-            style={{ marginRight: '10px', marginBottom: '10px' }}>
-            修复数据库一致性
+          <Button theme='light' type='danger' style={{ marginRight: '10px', marginBottom: '10px' }}>
+            删除禁用渠道
           </Button>
-        </Popconfirm></div>
+        </Popconfirm>
+      </div>
       <Table
         // className={'channel-table'}
         style={{ 'white-space': 'nowrap' }}
@@ -881,24 +880,25 @@ const ChannelsTable = () => {
         columns={columns}
         dataSource={pageData}
         pagination={{
+          size: !isMobile() ? '' : 'small',
           total: channelCount,
-          showTotal: true,
-          pageSizeOpts: [10, 20, 50, 100],
+          formatPageText: (channelCount) =>
+            `第 ${channelCount.currentStart} - ${channelCount.currentEnd} 条，共 ${channelCount.total} 条`,
           showSizeChanger: true,
-          showQuickJumper: true,
+          pageSizeOpts: [10, 20, 50, 100],
         }}
         loading={loading}
         onRow={handleRow}
-        // scroll={{ x: true }}
         rowSelection={
-          enableBatchDelete
-            ? {
-              onChange: (selectedRowKeys, selectedRows) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-                setSelectedChannels(selectedRows);
-              },
-            }
-            : null
+          // enableBatchDelete
+          //   ? 
+          {
+            onChange: (selectedRowKeys, selectedRows) => {
+              // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+              setSelectedChannels(selectedRows);
+            },
+          }
+          // : null
         }
       />
     </>

@@ -331,7 +331,7 @@ const PersonalSetting = () => {
               </div>
             </div>
           </Modal>
-          <div style={{ marginTop: 20 }}>
+          <div style={{ marginTop: 10 }}>
             <Card
               title={
                 <Card.Meta
@@ -358,25 +358,27 @@ const PersonalSetting = () => {
               headerExtraContent={
                 <>
                   <Space vertical align='start'>
-                    <Tag color='green'>{'ID: ' + userState?.user?.id}</Tag>
-                    <Tag color='blue'>{userState?.user?.group}</Tag>
+                    <Tag color='green' type='ghost'>{'ID: ' + userState?.user?.id}</Tag>
+                    <Tag color='indigo' type='ghost'>{userState?.user?.group}</Tag>
                   </Space>
                 </>
               }
-              footer={
-                <Descriptions row>
-                  <Descriptions.Item itemKey='当前余额'>
-                    {renderQuota(userState?.user?.quota)}
-                  </Descriptions.Item>
-                  <Descriptions.Item itemKey='历史消耗'>
-                    {renderQuota(userState?.user?.used_quota)}
-                  </Descriptions.Item>
-                  <Descriptions.Item itemKey='请求次数'>
-                    {userState.user?.request_count}
-                  </Descriptions.Item>
-                </Descriptions>
-              }
             >
+              <Descriptions row>
+                <Descriptions.Item itemKey='当前余额'>
+                  {renderQuota(userState?.user?.quota)}
+                </Descriptions.Item>
+                <Descriptions.Item itemKey='历史消耗'>
+                  {renderQuota(userState?.user?.used_quota)}
+                </Descriptions.Item>
+                <Descriptions.Item itemKey='请求次数'>
+                  {userState.user?.request_count}
+                </Descriptions.Item>
+              </Descriptions>
+            </Card>
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <Card>
               <Typography.Title heading={6}>可用模型</Typography.Title>
               <div style={{ marginTop: 10 }}>
                 <Space wrap>
@@ -394,6 +396,8 @@ const PersonalSetting = () => {
                 </Space>
               </div>
             </Card>
+          </div>
+          <div style={{ marginTop: 10 }}>
             <Card
               footer={
                 <div>
@@ -432,6 +436,8 @@ const PersonalSetting = () => {
                 </Descriptions>
               </div>
             </Card>
+          </div>
+          <div style={{ marginTop: 10 }}>
             <Card>
               <Typography.Title heading={6}>个人信息</Typography.Title>
               <div style={{ marginTop: 20 }}>

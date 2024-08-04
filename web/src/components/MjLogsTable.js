@@ -597,15 +597,18 @@ const LogsTable = () => {
           </>
         </Form>
         <Table
-          style={{ marginTop: 15, 'white-space': 'nowrap' }}
+          style={{ 'white-space': 'nowrap' }}
           bordered={true}
           size='small'
           columns={columns}
           dataSource={pageData}
           pagination={{
+            size: !isMobile() ? '' : 'small',
             currentPage: activePage,
             pageSize: ITEMS_PER_PAGE,
             total: logCount,
+            formatPageText: (logCount) =>
+              `第 ${logCount.currentStart} - ${logCount.currentEnd} 条，共 ${logCount.total} 条`,
             pageSizeOpts: [10, 20, 50, 100],
             onPageChange: handlePageChange,
           }}

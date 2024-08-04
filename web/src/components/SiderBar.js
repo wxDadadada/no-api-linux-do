@@ -146,13 +146,13 @@ const SiderBar = () => {
                 : 'tableHiddle',
           },
           {
-            text: '对话日志',
+            text: '请求日志',
             itemKey: 'log',
             to: '/log',
             icon: <IconChangelog />,
           },
           {
-            text: '绘图日志',
+            text: '绘图记录',
             itemKey: 'midjourney',
             to: '/midjourney',
             icon: <IconImage />,
@@ -204,7 +204,7 @@ const SiderBar = () => {
         localStorage.getItem('default_collapse_sidebar') === 'true',
       );
     });
-    let localKey = window.location.pathname.split('/')[1];
+    let localKey = window.location.pathname.split('/')[2];
     if (localKey === '') {
       localKey = 'home';
     }

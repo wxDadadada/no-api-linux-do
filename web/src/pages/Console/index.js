@@ -41,9 +41,7 @@ const About = () => {
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: 'center', // 水平居中
-            // alignItems: 'center', // 垂直居中
-            // height: '100vh', // 让父元素占据整个视口的高度
+            justifyContent: 'center'
           }}>
             <Empty
               image={<IllustrationSuccess style={{ width: 150, height: 150 }} />}
@@ -53,7 +51,7 @@ const About = () => {
             />
           </div>
 
-          <Card title='常见问题' >
+          <Card title='常见问题'  style={{ margin: 10 }}>
             <Card
               title='关于gpt系列最新模型'
               style={{ marginBottom: 20 }}

@@ -651,23 +651,34 @@ const TokensTable = () => {
         columns={columns}
         dataSource={pageData}
         pagination={{
+          size: !isMobile() ? '' : 'small',
           currentPage: activePage,
-          pageSize: pageSize,
+          pageSize: ITEMS_PER_PAGE,
           total: tokenCount,
           showSizeChanger: true,
           pageSizeOptions: [10, 20, 50, 100],
-          formatPageText: (page) =>
-            `第 ${page.currentStart} - ${page.currentEnd} 条，共 ${tokens.length} 条`,
-          onPageSizeChange: (size) => {
-            setPageSize(size);
-            setActivePage(1);
-          },
+          formatPageText: (tokenCount) =>
+            `第 ${tokenCount.currentStart} - ${tokenCount.currentEnd} 条，共 ${tokenCount.total} 条`,
+          // onPageSizeChange: (size) => {
+          //   setPageSize(size);
+          //   setActivePage(1);
+          // },
           onPageChange: handlePageChange,
         }}
         loading={loading}
-        rowSelection={rowSelection}
-        onRow={handleRow}
-      ></Table>
+        // onRow={handleRow}
+        // rowSelection={rowSelection}
+        // rowSelection={
+        //   enableBatchDelete
+        //     ? {
+        //       onChange: (selectedRowKeys, selectedRows) => {
+        //         // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        //         setSelectedChannels(selectedRows);
+        //       },
+        //     }
+        //     : null
+        // }
+      />
     </>
   );
 };

@@ -495,9 +495,13 @@ const UsersTable = () => {
         columns={columns}
         dataSource={pageData}
         pagination={{
+          size: !isMobile() ? '' : 'small',
           currentPage: activePage,
           pageSize: ITEMS_PER_PAGE,
           total: userCount,
+          formatPageText: (userCount) =>
+            `第 ${userCount.currentStart} - ${userCount.currentEnd} 条，共 ${userCount.total} 条`,
+          showSizeChanger: true,
           pageSizeOpts: [10, 20, 50, 100],
           onPageChange: handlePageChange,
         }}

@@ -433,13 +433,14 @@ const RedemptionsTable = () => {
         columns={columns}
         dataSource={pageData}
         pagination={{
+          size: !isMobile() ? '' : 'small',
           currentPage: activePage,
           pageSize: ITEMS_PER_PAGE,
           total: tokenCount,
-          // showSizeChanger: true,
-          // pageSizeOptions: [10, 20, 50, 100],
-          formatPageText: (page) =>
-            `第 ${page.currentStart} - ${page.currentEnd} 条，共 ${redemptions.length} 条`,
+          showSizeChanger: true,
+          pageSizeOptions: [10, 20, 50, 100],
+          formatPageText: (tokenCount) =>
+            `第 ${tokenCount.currentStart} - ${tokenCount.currentEnd} 条，共 ${tokenCount.total} 条`,
           // onPageSizeChange: (size) => {
           //   setPageSize(size);
           //   setActivePage(1);
@@ -447,9 +448,9 @@ const RedemptionsTable = () => {
           onPageChange: handlePageChange,
         }}
         loading={loading}
-        rowSelection={rowSelection}
-        onRow={handleRow}
-      ></Table>
+        // onRow={handleRow}
+        // rowSelection={rowSelection}
+      />
     </>
   );
 };

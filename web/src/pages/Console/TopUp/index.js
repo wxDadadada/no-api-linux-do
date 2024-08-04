@@ -239,40 +239,6 @@ const TopUp = () => {
                 余额 {renderQuota(userQuota)}
               </Title>
               <div style={{ marginTop: 20 }}>
-                <Divider>兑换余额</Divider>
-                <Form>
-                  <Form.Input
-                    field={'redemptionCode'}
-                    label={'兑换码'}
-                    placeholder='兑换码'
-                    name='redemptionCode'
-                    value={redemptionCode}
-                    onChange={(value) => {
-                      setRedemptionCode(value);
-                    }}
-                  />
-                  <Space>
-                    {topUpLink ? (
-                      <Button
-                        type={'primary'}
-                        theme={'solid'}
-                        onClick={openTopUpLink}
-                      >
-                        获取兑换码
-                      </Button>
-                    ) : null}
-                    <Button
-                      type={'warning'}
-                      theme={'solid'}
-                      onClick={topUp}
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? '兑换中...' : '兑换'}
-                    </Button>
-                  </Space>
-                </Form>
-              </div>
-              <div style={{ marginTop: 20 }}>
                 <Divider>在线充值</Divider>
                 <Form>
                   {/* <Form.Input
@@ -295,9 +261,12 @@ const TopUp = () => {
                   /> */}
                   <Form.Select
                     disabled={!enableOnlineTopUp}
-                    field={'redemptionCount'}
-                    label={'实付金额：' + renderAmount()}
-                    placeholder="请选择充值额度" style={{ width: 180 }} optionList={[
+                    // field={'redemptionCount'}
+                    suffix={'实付金额：' + renderAmount()}
+                    // label={'实付金额：' + renderAmount()}
+                    placeholder="请选择充值额度"
+                    style={{ width: '100%' }}
+                    optionList={[
                       { value: 10, label: '10刀额度', otherKey: 0 },
                       { value: 50, label: '50刀额度', otherKey: 1 },
                       { value: 100, label: '100刀额度', otherKey: 2 },
@@ -349,6 +318,40 @@ const TopUp = () => {
                   }>充值记录</Link>
                 </Text>
               </div> */}
+              <div style={{ marginTop: 20 }}>
+                <Divider>兑换余额</Divider>
+                <Form>
+                  <Form.Input
+                    // field={'redemptionCode'}
+                    // label={'兑换码'}
+                    placeholder='兑换码'
+                    // name='redemptionCode'
+                    value={redemptionCode}
+                    onChange={(value) => {
+                      setRedemptionCode(value);
+                    }}
+                  />
+                  <Space>
+                    {topUpLink ? (
+                      <Button
+                        type={'primary'}
+                        theme={'solid'}
+                        onClick={openTopUpLink}
+                      >
+                        获取兑换码
+                      </Button>
+                    ) : null}
+                    <Button
+                      type={'warning'}
+                      theme={'solid'}
+                      onClick={topUp}
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? '兑换中...' : '兑换'}
+                    </Button>
+                  </Space>
+                </Form>
+              </div>
             </Card>
           </div>
         </Layout.Content>

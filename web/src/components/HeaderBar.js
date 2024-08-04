@@ -272,32 +272,22 @@ const HeaderBar = () => {
       { node: 'item', name: '模型价格', type: 'tertiary', icon: <IconBanner />, onClick: () => redirectTo('/pricing') },
       { node: 'title', name: '日志' },
       { node: 'item', name: '统计图表', type: 'tertiary', icon: <IconPopover />, onClick: () => redirectTo('/console/detail'), className: localStorage.getItem('enable_data_export') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
-      { node: 'item', name: '对话日志', type: 'tertiary', icon: <IconChangelog />, onClick: () => redirectTo('/console/log') },
-      { node: 'item', name: '绘画日志', type: 'tertiary', icon: <IconImage />, onClick: () => redirectTo('/console/midjourney'), className: localStorage.getItem('enable_drawing') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
+      { node: 'item', name: '请求日志', type: 'tertiary', icon: <IconChangelog />, onClick: () => redirectTo('/console/log') },
+      { node: 'item', name: '绘图记录', type: 'tertiary', icon: <IconImage />, onClick: () => redirectTo('/console/midjourney'), className: localStorage.getItem('enable_drawing') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
       { node: 'item', name: '异步任务', type: 'tertiary', icon: <IconSlider />, onClick: () => redirectTo('/console/task'), className: localStorage.getItem('enable_task') === 'true' ? 'semi-navigation-item-normal' : 'tableHiddle' },
     ];
 
     return (
       // <>
-        <Dropdown trigger={'click'} position={'bottomLeft'} clickToHide={true} menu={menu}>
-          <IconToken size='extra-large' />
-        </Dropdown>
-        
-      //   {/* <IconIntro size='large' onClick={() => redirectTo('/')} style={{'margin-left': '12px'}}/> */}
-      //   {/* <IconBanner size='large' onClick={() => redirectTo('/pricing')} style={{'margin-left': '12px'}}/> */}
-      //   {/* <IconIntro size='large' onClick={() => redirectTo('/')} style={{'margin-left': '12px'}}/> */}
-      // {/* </> */}
+      <Dropdown trigger={'click'} position={'bottomLeft'} clickToHide={true} menu={menu}>
+        <IconToken size='extra-large' />
+      </Dropdown>
     );
   }
-
   return (
     <>
       <Layout>
-        <div style={{
-          // position: 'sticky',
-          // top: 0,
-          // zIndex: 999 
-        }}>
+        <div>
           <Nav
             mode={'horizontal'}
             selectedKeys={selectedKeys}
@@ -366,12 +356,14 @@ const HeaderBar = () => {
                 {userState.user ? (
                   <>
                     {!location.pathname.startsWith('/console') ? (
-                      <Nav.Item
-                        text={'控制台'}
-                        itemKey={'console'}
-                        icon={<IconToken />}
-                        style={{ 'background-color': 'transparent' }}
-                      />
+                      // <Nav.Item
+                      //   text={'控制台'}
+                      //   itemKey={'console'}
+                      //   icon={<IconToken />}
+                      //   style={{ 'background-color': 'transparent' }}
+
+                  <Button theme='outline' type='tertiary' icon={<IconToken />} onClick={() => redirectTo('/console')}>控制台</Button>
+                      // />
                       // <img src={<IconToken size='extra-large' />} alt='console' style={{ marginRight: '0.75em', width: '36px', height: '36px' }} onClick={() => redirectTo('/console')} />
                     ) : (
                       <Dropdown

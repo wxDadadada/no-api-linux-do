@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import HeaderBar from './components/HeaderBar';
-import Footer from './components/Footer';
+import FooterBar from './components/FooterBar';
 import 'semantic-ui-offline/semantic.min.css';
 import './index.css';
 import { UserProvider } from './context/User';
@@ -16,55 +16,58 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { isMobile } from './helpers';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const { Sider, Content, Header } = Layout;
+const { Sider, Content, Header, Footer } = Layout;
 
 function LayoutWithConditionalSider() {
   const location = useLocation();
   return (
-    <Layout>
-      <Header style={{
-        height: '60px',
-        position: 'sticky',
-        top: 0,
-        zIndex: 999 
-      }}>
-        <HeaderBar />
-      </Header>
-      <Layout style={{
-        height: 'calc(100vh - 60px)'
-      }}>
-        {!isMobile() &&
-          (
+    <>
+      <Layout>
+        <Header style={{
+          position: 'fixed',
+          width: '100%',
+          height: '60px',
+          zIndex: '999'
+        }}>
+          <HeaderBar />
+        </Header>
+        <Layout style={{
+          position: 'fixed',
+          width: '100%',
+          height: 'calc(100vh - 60px)',
+          marginTop: 60
+        }}>
+          {!isMobile() && (
             location.pathname.startsWith('/console') && (
-              <Sider style={{
-                height: 'calc(100vh - 60px)'
-              }}>
+              <Sider>
                 <SiderBar />
               </Sider>
             )
-          )
-        }
-        <Layout
-            style={{
-              overflowY: 'auto'
-            }}
-          >
-          <Content
-            style={{
-              padding: '24px'
-            }}
-          >
-            <App />
-          </Content>
-      <Layout.Footer  style={{
-        height: '60px'
-      }}>
-        <Footer></Footer>
-      </Layout.Footer>
+          )}
+          <Layout style={{
+              // padding: '15px',
+              // marginBottom: 60,
+              overflow: 'auto'
+            }} >
+            <Content style={{
+              padding: '15px',
+              // marginBottom: 60,
+              // overflow: 'auto'
+            }} >
+              <App />
+            </Content>
+            <Footer style={{
+              // position: 'fixed',
+              // width: '100%',
+              // height: 60,
+              // bottom: 0
+            }}>
+              <FooterBar />
+            </Footer>
+          </Layout>
         </Layout>
       </Layout>
-      <ToastContainer />
-    </Layout>
+    </>
   );
 }
 
