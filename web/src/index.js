@@ -45,28 +45,21 @@ function LayoutWithConditionalSider() {
             )
           )}
           <Layout style={{
-              // padding: '15px',
-              // marginBottom: 60,
-              overflow: 'auto'
-            }} >
+            overflow: 'auto',
+          }} >
             <Content style={{
-              padding: '15px',
-              // marginBottom: 60,
-              // overflow: 'auto'
+              padding: '15px'
             }} >
               <App />
             </Content>
             <Footer style={{
-              // position: 'fixed',
-              // width: '100%',
-              // height: 60,
-              // bottom: 0
+              bottom: 0
             }}>
               <FooterBar />
             </Footer>
           </Layout>
         </Layout>
-      </Layout>
+      </Layout >
     </>
   );
 }

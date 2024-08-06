@@ -16,7 +16,6 @@ const Footer = () => {
   };
 
   const defaultFooter = (
-    // <div className='custom-footer'>
     <div style={{
       display: 'flex',
       'word-wrap': 'break-word',
@@ -27,7 +26,6 @@ const Footer = () => {
       'background-color': 'rgba(var(--semi-grey-0), 1)',
       'justify-content': !isMobile() ? 'space-between' : 'center',
       'flex-direction': !isMobile() ? 'row' : 'column',
-      // 'align-items': !isMobile() ? 'stretch' : 'center',
     }}>
       <span>
         <span>Copyright © 2024&nbsp;
@@ -52,11 +50,8 @@ const Footer = () => {
         >
           One API
         </a>
-        {/* <a href="https://github.com/Calcium-Ion/new-api" style="text-align: center; text-decoration: none; color: inherit;">New API</a>
-        <a href="https://github.com/songquanpeng/one-api" style="text-align: center; text-decoration: none; color: inherit;">One API</a> */}
       </div>
     </div>
-    // </div>
   );
 
   useEffect(() => {

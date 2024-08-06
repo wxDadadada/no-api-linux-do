@@ -6,7 +6,7 @@ import { PrivateRoute } from './components/PrivateRoute';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from './components/LoginForm';
 import NotFound from './pages/NotFound';
-import Setting from './pages/Setting';
+import Setting from './pages/Console/Setting';
 import EditUser from './pages/Console/User/EditUser';
 import { getLogo, getSystemName } from './helpers';
 import PasswordResetForm from './components/PasswordResetForm';
@@ -184,7 +184,7 @@ function App() {
             }
           />
           <Route
-            path='/setting'
+            path='/console/setting'
             element={
               <PrivateRoute>
                 <Suspense fallback={<Loading></Loading>}>

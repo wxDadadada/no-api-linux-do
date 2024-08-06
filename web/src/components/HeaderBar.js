@@ -74,7 +74,7 @@ const HeaderBar = () => {
     user: '/console/user',
     log: '/console/log',
     midjourney: '/console/midjourney',
-    setting: '/setting',
+    setting: '/console/setting',
     about: '/about',
     chat: '/console/chat',
     detail: '/console/detail',
@@ -233,7 +233,7 @@ const HeaderBar = () => {
   }, []);
 
   async function personal() {
-    navigate('/setting?tab=personal');
+    navigate('/console/setting?tab=personal');
   }
   async function logout() {
     setShowSidebar(false);
