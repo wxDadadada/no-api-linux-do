@@ -12,6 +12,8 @@ import { API, removeTrailingSlash, showError, verifyJSON } from '../helpers';
 
 import { useTheme } from '../context/Theme';
 
+import { Banner, Typography } from '@douyinfe/semi-ui';
+
 const SystemSetting = () => {
   let [inputs, setInputs] = useState({
     PasswordLoginEnabled: '',
@@ -319,6 +321,7 @@ const SystemSetting = () => {
       ]);
     }
   };
+  const { Text } = Typography;
 
   return (
     <Grid columns={1}>
@@ -365,6 +368,9 @@ const SystemSetting = () => {
           <Header as='h3' inverted={isDark}>
             支付设置（当前仅支持易支付接口，默认使用上方服务器地址作为回调地址！）
           </Header>
+            <Banner fullMode={false} type="info" bordered icon={null} closeIcon={null}
+                title={<div style={{ fontWeight: 600, fontSize: '14px', lineHeight: '20px' }}>推荐易支付 支持官方商户进件 费率最低可低至0.2% 点击直达：<Text link={{ href: 'https://epay.la' }}>ePay.la</Text></div>}
+            /><br/>
           <Form.Group widths='equal'>
             <Form.Input
               label='支付地址，不填写则不启用在线支付'
