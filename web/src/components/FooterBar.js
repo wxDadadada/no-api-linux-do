@@ -29,7 +29,7 @@ const Footer = () => {
     }}>
       <span>
         <span>Copyright © 2024&nbsp;
-          <a href='https://github.com/wxDadadada' style={{ 'text-align': 'center', 'text-decoration': 'none', color: 'inherit', marginRight: '10px' }}
+          <a href='https://epay.la' style={{ 'text-align': 'center', 'text-decoration': 'none', color: 'inherit', marginRight: '10px' }}
             target='_blank'
             rel='noreferrer'
           >
