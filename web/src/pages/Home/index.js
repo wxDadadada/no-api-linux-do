@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Col, Row } from '@douyinfe/semi-ui';
-import { API, showError, showNotice, timestamp2string } from '../../helpers';
+import { Card, Col, Row, Modal } from '@douyinfe/semi-ui';
+import { API, showError, timestamp2string } from '../../helpers';
 import { StatusContext } from '../../context/Status';
 import { marked } from 'marked';
 
@@ -8,17 +8,28 @@ const Home = () => {
   const [statusState] = useContext(StatusContext);
   const [homePageContentLoaded, setHomePageContentLoaded] = useState(false);
   const [homePageContent, setHomePageContent] = useState('');
+  const [visible, setVisible] = useState(false); // Dialog visibility state
+  const [dialogContent, setDialogContent] = useState(''); // For storing dialog content
 
   const displayNotice = async () => {
     const res = await API.get('/api/notice');
+    console.log('Fetched notice:', res.data); // 日志化请求数据
     const { success, message, data } = res.data;
     if (success) {
       let oldNotice = localStorage.getItem('notice');
-      if (data !== oldNotice && data !== '') {
-        const htmlNotice = marked(data);
-        showNotice(htmlNotice, true);
-        localStorage.setItem('notice', data);
-      }
+      console.log('Old notice:', oldNotice); // 日志化旧公告
+      // if (data !== oldNotice && data !== '') {
+      const htmlNotice = marked(data);
+      console.log('Showing notice:', htmlNotice); // 打印即将显示的公告内容
+
+      // Set dialog content and show modal
+      setDialogContent(htmlNotice);
+      setVisible(true);
+
+      localStorage.setItem('notice', data);
+      // } else {
+      //     console.log('No new notice to show.'); // 没有新公告
+      // }
     } else {
       showError(message);
     }
@@ -29,10 +40,7 @@ const Home = () => {
     const res = await API.get('/api/home_page_content');
     const { success, message, data } = res.data;
     if (success) {
-      let content = data;
-      if (!data.startsWith('https://')) {
-        content = marked.parse(data);
-      }
+      let content = marked.parse(data);
       setHomePageContent(content);
       localStorage.setItem('home_page_content', content);
     } else {
@@ -47,10 +55,25 @@ const Home = () => {
     return statusState.status ? timestamp2string(timestamp) : '';
   };
 
+  const handleOk = () => {
+    setVisible(false);
+    console.log('Ok button clicked');
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+    console.log('Cancel button clicked');
+  };
+
+  const handleAfterClose = () => {
+    console.log('After Close callback executed');
+  };
+
   useEffect(() => {
     displayNotice().then();
     displayHomePageContent().then();
   }, []);
+
   return (
     <>
       {homePageContentLoaded && homePageContent === '' ? (
@@ -113,7 +136,6 @@ const Home = () => {
                     <span
                       style={{
                         fontSize: '12px',
-                        color: 'var(--semi-color-text-1)',
                       }}
                     >
                       系统配置总览
@@ -170,6 +192,20 @@ const Home = () => {
           )}
         </>
       )}
+
+      {/* Modal for displaying notice */}
+      <Modal
+        title="公告"
+        visible={visible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        afterClose={handleAfterClose}
+        closable={false}
+        hasCancel={false}
+        maskClosable={false}
+      >
+        <div dangerouslySetInnerHTML={{ __html: dialogContent }} />
+      </Modal>
     </>
   );
 };
