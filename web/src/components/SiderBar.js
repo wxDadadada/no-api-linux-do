@@ -241,7 +241,7 @@ const SiderBar = () => {
               setSelectedKeys([key.itemKey]);
             }}
           >
-            <Nav.Footer collapseButton={true}></Nav.Footer>
+            {/* <Nav.Footer collapseButton={true}></Nav.Footer> */}
           </Nav>
         </div>
       </Layout>

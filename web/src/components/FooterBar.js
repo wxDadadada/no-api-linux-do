@@ -29,7 +29,7 @@ const Footer = () => {
     }}>
       <span>
         <span>Copyright © 2024&nbsp;
-          <a href='https://epay.la' style={{ 'text-align': 'center', 'text-decoration': 'none', color: 'inherit', marginRight: '10px' }}
+          <a href='https://docs.qq.com/doc/p/af2a94ff20cd066dc642d20179a04006c9cba162' style={{ 'text-align': 'center', 'text-decoration': 'none', color: 'inherit', marginRight: '10px' }}
             target='_blank'
             rel='noreferrer'
           >

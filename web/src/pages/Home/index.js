@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Card, Col, Row, Modal } from '@douyinfe/semi-ui';
-import { API, showError, timestamp2string } from '../../helpers';
+import { isMobile, API, showError, timestamp2string } from '../../helpers';
 import { StatusContext } from '../../context/Status';
 import { marked } from 'marked';
 
@@ -8,28 +8,20 @@ const Home = () => {
   const [statusState] = useContext(StatusContext);
   const [homePageContentLoaded, setHomePageContentLoaded] = useState(false);
   const [homePageContent, setHomePageContent] = useState('');
-  const [visible, setVisible] = useState(false); // Dialog visibility state
-  const [dialogContent, setDialogContent] = useState(''); // For storing dialog content
-
+  const [visible, setVisible] = useState(false);
+  const [dialogContent, setDialogContent] = useState('');
+  
   const displayNotice = async () => {
     const res = await API.get('/api/notice');
-    console.log('Fetched notice:', res.data); // 日志化请求数据
     const { success, message, data } = res.data;
     if (success) {
       let oldNotice = localStorage.getItem('notice');
-      console.log('Old notice:', oldNotice); // 日志化旧公告
-      // if (data !== oldNotice && data !== '') {
-      const htmlNotice = marked(data);
-      console.log('Showing notice:', htmlNotice); // 打印即将显示的公告内容
-
-      // Set dialog content and show modal
-      setDialogContent(htmlNotice);
-      setVisible(true);
-
-      localStorage.setItem('notice', data);
-      // } else {
-      //     console.log('No new notice to show.'); // 没有新公告
-      // }
+      if (data !== '') {
+        const htmlNotice = marked(data);
+        setDialogContent(htmlNotice);
+        setVisible(true);
+        localStorage.setItem('notice', data);
+      }
     } else {
       showError(message);
     }
@@ -109,11 +101,11 @@ const Home = () => {
                   <p>
                     源码：
                     <a
-                      href='https://github.com/Calcium-Ion/new-api'
+                      href='https://docs.qq.com/doc/p/af2a94ff20cd066dc642d20179a04006c9cba162'
                       target='_blank'
                       rel='noreferrer'
                     >
-                      https://github.com/Calcium-Ion/new-api
+                      https://docs.qq.com/doc/p/af2a94ff20cd066dc642d20179a04006c9cba162
                     </a>
                   </p>
                   <p>
@@ -192,10 +184,9 @@ const Home = () => {
           )}
         </>
       )}
-
-      {/* Modal for displaying notice */}
       <Modal
         title="公告"
+        width={!isMobile() ? '548' : 'calc(100vw - 20px)'}
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}

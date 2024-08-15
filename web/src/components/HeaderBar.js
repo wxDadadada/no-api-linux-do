@@ -338,7 +338,7 @@ const HeaderBar = () => {
             }
             footer={
               <>
-                <IconInfoCircle size='large' onClick={() => redirectTo('/about')} />
+                <IconInfoCircle size='large' style={{ color: '#808080' }} onClick={() => redirectTo('/about')} />
                 <span
                   onClick={() => {
                     if (theme === 'dark') {
@@ -349,7 +349,7 @@ const HeaderBar = () => {
                   }}
                 >
                   <Nav.Item style={{ 'background-color': 'transparent' }}>
-                    {theme === 'dark' ? <IconSun size='large' /> : <IconMoon size='large' />}
+                    {theme === 'dark' ? <IconSun size='large' style={{ color: '#808080' }} /> : <IconMoon size='large' style={{ color: '#808080' }} />}
                   </Nav.Item>
                 </span>
 

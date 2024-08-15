@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Banner, Button, Col, Form, Row } from '@douyinfe/semi-ui';
+import { Banner, Typography, Button, Col, Form, Row } from '@douyinfe/semi-ui';
 import { API, showError, showSuccess } from '../helpers';
 import { marked } from 'marked';
 
@@ -46,6 +46,8 @@ const OtherSetting = () => {
     const name = e.target.id;
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
+
+  const { Text } = Typography;
 
   // 通用设置
   const formAPISettingGeneral = useRef();
@@ -193,6 +195,18 @@ const OtherSetting = () => {
           getFormApi={(formAPI) => (formAPISettingGeneral.current = formAPI)}
           style={{ marginBottom: 15 }}
         >
+          <br />
+          <Banner fullMode={false} type="success" bordered icon={null} closeIcon={null}
+            title={
+              <div style={{ fontWeight: 600, fontSize: '14px', lineHeight: '20px' }}>
+                NO-API 当前版本号：V1.5&nbsp;&nbsp;
+                <Text link={{ href: 'https://docs.qq.com/doc/p/af2a94ff20cd066dc642d20179a04006c9cba162' }}>
+                  检查更新
+                </Text>
+              </div>
+            }
+          />
+          <br />
           <Form.Section text={'通用设置'}>
             <Form.TextArea
               label={'公告'}
@@ -268,7 +282,7 @@ const OtherSetting = () => {
             <Banner
               fullMode={false}
               type='info'
-              description='移除 One API 的版权标识必须首先获得授权，项目维护需要花费大量精力，如果本项目对你有意义，请主动支持本项目。'
+              description='移除 NO-API 的版权标识必须首先获得授权，项目维护需要花费大量精力，如果本项目对你有意义，请主动支持本项目。'
               closeIcon={null}
               style={{ marginTop: 15 }}
             />
@@ -286,28 +300,28 @@ const OtherSetting = () => {
           </Form.Section>
         </Form>
       </Col>
-      {/*<Modal*/}
-      {/*  onClose={() => setShowUpdateModal(false)}*/}
-      {/*  onOpen={() => setShowUpdateModal(true)}*/}
-      {/*  open={showUpdateModal}*/}
-      {/*>*/}
-      {/*  <Modal.Header>新版本：{updateData.tag_name}</Modal.Header>*/}
-      {/*  <Modal.Content>*/}
-      {/*    <Modal.Description>*/}
-      {/*      <div dangerouslySetInnerHTML={{ __html: updateData.content }}></div>*/}
-      {/*    </Modal.Description>*/}
-      {/*  </Modal.Content>*/}
-      {/*  <Modal.Actions>*/}
-      {/*    <Button onClick={() => setShowUpdateModal(false)}>关闭</Button>*/}
-      {/*    <Button*/}
-      {/*      content='详情'*/}
-      {/*      onClick={() => {*/}
-      {/*        setShowUpdateModal(false);*/}
-      {/*        openGitHubRelease();*/}
-      {/*      }}*/}
-      {/*    />*/}
-      {/*  </Modal.Actions>*/}
-      {/*</Modal>*/}
+      {/* <Modal
+        onClose={() => setShowUpdateModal(false)}
+        onOpen={() => setShowUpdateModal(true)}
+        open={showUpdateModal}
+      >
+        <Modal.Header>新版本：{updateData.tag_name}</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <div dangerouslySetInnerHTML={{ __html: updateData.content }}></div>
+          </Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={() => setShowUpdateModal(false)}>关闭</Button>
+          <Button
+            content='详情'
+            onClick={() => {
+              setShowUpdateModal(false);
+              openGitHubRelease();
+            }}
+          />
+        </Modal.Actions>
+      </Modal> */}
     </Row>
   );
 };
