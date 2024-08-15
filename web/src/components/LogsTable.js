@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   isMobile,
   API,
-  copy, getTodayStartTimestamp,
+  copy,
+  getTodayStartTimestamp,
   isAdmin,
   showError,
   showSuccess,
-  timestamp2string
+  timestamp2string,
 } from '../helpers';
 
 import {
@@ -31,7 +32,7 @@ import {
   stringToColor,
 } from '../helpers/render';
 import Paragraph from '@douyinfe/semi-ui/lib/es/typography/paragraph';
-import { getLogOther } from "../helpers/other.js";
+import {  getLogOther  } from '../helpers/other.js';
 
 const { Header } = Layout;
 
@@ -146,7 +147,7 @@ function renderUseTime(type) {
 
 function renderFirstUseTime(type) {
   let time = parseFloat(type) / 1000.0;
-  time = time.toFixed(1)
+  time = time.toFixed(1);
   if (time < 3) {
     return (
       <Tag color='green' size='large'>
@@ -346,7 +347,7 @@ const LogsTable = () => {
         if (record.other !== '') {
           let other = JSON.parse(record.other);
           if (other === null) {
-            return <></>
+            return <></>;
           }
           if (other.admin_info !== undefined) {
             if (
@@ -416,8 +417,6 @@ const LogsTable = () => {
   const [activePage, setActivePage] = useState(1);
   const [logCount, setLogCount] = useState(ITEMS_PER_PAGE);
   const [pageSize, setPageSize] = useState(ITEMS_PER_PAGE);
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [searching, setSearching] = useState(false);
   const [logType, setLogType] = useState(0);
   const isAdminUser = isAdmin();
   let now = new Date();
@@ -453,9 +452,7 @@ const LogsTable = () => {
     let localEndTimestamp = Date.parse(end_timestamp) / 1000;
     let url = `/api/log/self/stat?type=${logType}&token_name=${token_name}&model_name=${model_name}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}`;
     url = encodeURI(url);
-    let res = await API.get(
-      url,
-    );
+    let res = await API.get(url);
     const { success, message, data } = res.data;
     if (success) {
       setStat(data);
@@ -469,9 +466,7 @@ const LogsTable = () => {
     let localEndTimestamp = Date.parse(end_timestamp) / 1000;
     let url = `/api/log/stat?type=${logType}&username=${username}&token_name=${token_name}&model_name=${model_name}&start_timestamp=${localStartTimestamp}&end_timestamp=${localEndTimestamp}&channel=${channel}`;
     url = encodeURI(url);
-    let res = await API.get(
-      url,
-    );
+    let res = await API.get(url);
     const { success, message, data } = res.data;
     if (success) {
       setStat(data);
@@ -523,10 +518,7 @@ const LogsTable = () => {
       logs[i].timestamp2string = timestamp2string(logs[i].created_at);
       logs[i].key = '' + logs[i].id;
     }
-    // data.key = '' + data.id
     setLogs(logs);
-    setLogCount(logs.length + ITEMS_PER_PAGE);
-    // console.log(logCount);
   };
 
   const loadLogs = async (startIdx, pageSize, logType = 0) => {
@@ -544,37 +536,28 @@ const LogsTable = () => {
     const res = await API.get(url);
     const { success, message, data } = res.data;
     if (success) {
-      if (startIdx === 0) {
-        setLogsFormat(data);
-      } else {
-        let newLogs = [...logs];
-        newLogs.splice(startIdx * pageSize, data.length, ...data);
-        setLogsFormat(newLogs);
-      }
+      const newPageData = data.items;
+      setActivePage(data.page);
+      setPageSize(data.page_size);
+      setLogCount(data.total);
+
+      setLogsFormat(newPageData);
     } else {
       showError(message);
     }
     setLoading(false);
   };
 
-  const pageData = logs.slice(
-    (activePage - 1) * pageSize,
-    activePage * pageSize,
-  );
-
   const handlePageChange = (page) => {
     setActivePage(page);
-    if (page === Math.ceil(logs.length / pageSize) + 1) {
-      // In this case we have to load more data and then append them.
-      loadLogs(page - 1, pageSize, logType).then((r) => { });
-    }
+    loadLogs(page, pageSize, logType).then((r) => {});
   };
 
   const handlePageSizeChange = async (size) => {
     localStorage.setItem('page-size', size + '');
     setPageSize(size);
     setActivePage(1);
-    loadLogs(0, size)
+    loadLogs(activePage, size)
       .then()
       .catch((reason) => {
         showError(reason);
@@ -582,73 +565,30 @@ const LogsTable = () => {
   };
 
   const refresh = async () => {
-    // setLoading(true);
     setActivePage(1);
     handleEyeClick();
-    await loadLogs(0, pageSize, logType);
+    await loadLogs(activePage, pageSize, logType);
   };
 
   const copyText = async (text) => {
     if (await copy(text)) {
       showSuccess('已复制：' + text);
     } else {
-      // setSearchKeyword(text);
       Modal.error({ title: '无法复制到剪贴板，请手动复制', content: text });
     }
   };
 
   useEffect(() => {
-    // console.log('default effect')
     const localPageSize =
       parseInt(localStorage.getItem('page-size')) || ITEMS_PER_PAGE;
     setPageSize(localPageSize);
-    loadLogs(0, localPageSize)
+    loadLogs(activePage, localPageSize)
       .then()
       .catch((reason) => {
         showError(reason);
       });
     handleEyeClick();
   }, []);
-
-  const searchLogs = async () => {
-    if (searchKeyword === '') {
-      // if keyword is blank, load files instead.
-      await loadLogs(0, pageSize);
-      setActivePage(1);
-      return;
-    }
-    setSearching(true);
-    const res = await API.get(`/api/log/self/search?keyword=${searchKeyword}`);
-    const { success, message, data } = res.data;
-    if (success) {
-      setLogs(data);
-      setActivePage(1);
-    } else {
-      showError(message);
-    }
-    setSearching(false);
-  };
-
-  //折叠
-  const [isOpen, setOpen] = useState(false);
-  const maskStyle = isOpen
-    ? {}
-    : {
-      WebkitMaskImage:
-        'linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0.2) 80%, transparent 100%)',
-    };
-  const toggle = () => {
-    setOpen(!isOpen);
-  };
-  const linkStyle = {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    textAlign: 'center',
-    bottom: -10,
-    fontWeight: 700,
-    cursor: 'pointer',
-  };
 
   return (
     <>
@@ -668,12 +608,48 @@ const LogsTable = () => {
             </Space>
           </Spin>
         </Header>
-        {/* <div style={{ position: 'relative' }}>
-          <Collapsible isOpen={isOpen} collapseHeight={60} style={{ ...maskStyle }}> */}
         <Form layout='horizontal' labelPosition='inset' style={{ marginTop: 15 }}>
           <>
+          <Form.Input
+              field='token_name'
+              label='令牌名称'
+              style={{ width: '250px', marginBottom: '10px' }}
+              value={token_name} placeholder={'可选值'}
+              name='token_name'
+              onChange={(value) => handleInputChange(value, 'token_name')}
+            />
+            <Form.Input
+            field='model_name'
+            label='模型名称'
+            style={{ width: '250px', marginBottom: '10px' }}
+            value={model_name} placeholder='可选值'
+            name='model_name'
+            onChange={(value) => handleInputChange(value, 'model_name')}
+          />
+          <Form.DatePicker
+          field='start_timestamp'
+          label='起始时间'
+          style={{ width: '250px', marginBottom: '10px' }}
+          initValue={start_timestamp}
+          value={start_timestamp}
+          type='dateTime'
+          name='start_timestamp'
+          onChange={(value) => handleInputChange(value, 'start_timestamp')}
+        />
+        <Form.DatePicker
+          field='end_timestamp'
+          fluid
+          label='结束时间'
+          style={{ width: '272px', marginBottom: '10px' }}
+          initValue={end_timestamp}
+          value={end_timestamp}
+          type='dateTime'
+          name='end_timestamp'
+          onChange={(value) => handleInputChange(value, 'end_timestamp')}
+        />
             {isAdminUser && (
               <>
+              
                 <Form.Input field='channel' label='渠道' style={{ width: '250px', marginBottom: '10px' }}
                   value={channel} placeholder='可选值'
                   name='channel'
@@ -708,9 +684,58 @@ const LogsTable = () => {
               name='end_timestamp'
               onChange={(value) => handleInputChange(value, 'end_timestamp')}
             />
-            <Button label='查询' type='primary' htmlType='submit' className='btn-margin-right' onClick={refresh} loading={loading} style={{ marginBottom: '10px' }}>查询</Button>
+            {isAdminUser && (
+              <>
+                <Form.Input
+                  field='channel'
+                  label='渠道 ID'
+                  style={{ width: 176 }}
+                  value={channel}
+                  placeholder='可选值'
+                  name='channel'
+                  onChange={(value) => handleInputChange(value, 'channel')}
+                />
+                <Form.Input
+                  field='username'
+                  label='用户名称'
+                  style={{ width: 176 }}
+                  value={username}
+                  placeholder={'可选值'}
+                  name='username'
+                  onChange={(value) => handleInputChange(value, 'username')}
+                />
+              </>
+            )}
+            <Button
+              label='查询'
+              type='primary'
+              htmlType='submit'
+              className='btn-margin-right'
+              onClick={refresh}
+              loading={loading}
+              style={{ marginTop: 24 }}
+            >
+              查询
+            </Button>
+            <Form.Section></Form.Section>
           </>
         </Form>
+        <Table
+          style={{ marginTop: 5 }}
+          columns={columns}
+          dataSource={logs}
+          pagination={{
+            currentPage: activePage,
+            pageSize: pageSize,
+            total: logCount,
+            pageSizeOpts: [10, 20, 50, 100],
+            showSizeChanger: true,
+            onPageSizeChange: (size) => {
+              handlePageSizeChange(size);
+            },
+            onPageChange: handlePageChange,
+          }}
+        />
         <Select
           defaultValue='0'
           insetLabel={'类型'}
