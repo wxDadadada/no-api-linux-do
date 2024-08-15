@@ -53,7 +53,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
-        // target: 'https://api.wxda.net',
+        // target: 'https://api.dcm.ink',
         changeOrigin: true,
       },
     },

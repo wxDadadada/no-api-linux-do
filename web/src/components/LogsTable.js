@@ -32,7 +32,7 @@ import {
   stringToColor,
 } from '../helpers/render';
 import Paragraph from '@douyinfe/semi-ui/lib/es/typography/paragraph';
-import {  getLogOther  } from '../helpers/other.js';
+import { getLogOther } from '../helpers/other.js';
 
 const { Header } = Layout;
 
@@ -400,7 +400,7 @@ const LogsTable = () => {
               ellipsis={{
                 rows: 2,
               }}
-              style={{ maxWidth: 240 }}
+              // style={{ maxWidth: 240 }}
             >
               {text}
             </Paragraph>
@@ -550,7 +550,7 @@ const LogsTable = () => {
 
   const handlePageChange = (page) => {
     setActivePage(page);
-    loadLogs(page, pageSize, logType).then((r) => {});
+    loadLogs(page, pageSize, logType).then((r) => { });
   };
 
   const handlePageSizeChange = async (size) => {
@@ -610,86 +610,12 @@ const LogsTable = () => {
         </Header>
         <Form layout='horizontal' labelPosition='inset' style={{ marginTop: 15 }}>
           <>
-          <Form.Input
-              field='token_name'
-              label='令牌名称'
-              style={{ width: '250px', marginBottom: '10px' }}
-              value={token_name} placeholder={'可选值'}
-              name='token_name'
-              onChange={(value) => handleInputChange(value, 'token_name')}
-            />
-            <Form.Input
-            field='model_name'
-            label='模型名称'
-            style={{ width: '250px', marginBottom: '10px' }}
-            value={model_name} placeholder='可选值'
-            name='model_name'
-            onChange={(value) => handleInputChange(value, 'model_name')}
-          />
-          <Form.DatePicker
-          field='start_timestamp'
-          label='起始时间'
-          style={{ width: '250px', marginBottom: '10px' }}
-          initValue={start_timestamp}
-          value={start_timestamp}
-          type='dateTime'
-          name='start_timestamp'
-          onChange={(value) => handleInputChange(value, 'start_timestamp')}
-        />
-        <Form.DatePicker
-          field='end_timestamp'
-          fluid
-          label='结束时间'
-          style={{ width: '272px', marginBottom: '10px' }}
-          initValue={end_timestamp}
-          value={end_timestamp}
-          type='dateTime'
-          name='end_timestamp'
-          onChange={(value) => handleInputChange(value, 'end_timestamp')}
-        />
-            {isAdminUser && (
-              <>
-              
-                <Form.Input field='channel' label='渠道' style={{ width: '250px', marginBottom: '10px' }}
-                  value={channel} placeholder='可选值'
-                  name='channel'
-                  onChange={(value) => handleInputChange(value, 'channel')}
-                />
-                <Form.Input field='username' label='用户' style={{ width: '250px', marginBottom: '10px' }}
-                  value={username} placeholder={'可选值'}
-                  name='username'
-                  onChange={(value) => handleInputChange(value, 'username')}
-                />
-              </>
-            )}
-            <Form.Input field='token_name' label='令牌' style={{ width: '250px', marginBottom: '10px' }}
-              value={token_name} placeholder={'可选值'}
-              name='token_name'
-              onChange={(value) => handleInputChange(value, 'token_name')}
-            />
-            <Form.Input field='model_name' label='模型' style={{ width: '250px', marginBottom: '10px' }}
-              value={model_name} placeholder='可选值'
-              name='model_name'
-              onChange={(value) => handleInputChange(value, 'model_name')}
-            />
-            <Form.DatePicker field='start_timestamp' label='起始时间' style={{ width: '250px', marginBottom: '10px' }}
-              initValue={start_timestamp}
-              value={start_timestamp} type='dateTime'
-              name='start_timestamp'
-              onChange={(value) => handleInputChange(value, 'start_timestamp')}
-            />
-            <Form.DatePicker field='end_timestamp' fluid label='结束时间' style={{ width: '250px', marginBottom: '10px' }}
-              initValue={end_timestamp}
-              value={end_timestamp} type='dateTime'
-              name='end_timestamp'
-              onChange={(value) => handleInputChange(value, 'end_timestamp')}
-            />
             {isAdminUser && (
               <>
                 <Form.Input
                   field='channel'
-                  label='渠道 ID'
-                  style={{ width: 176 }}
+                  label='渠道'
+                  style={{ width: '250px', marginBottom: '10px' }}
                   value={channel}
                   placeholder='可选值'
                   name='channel'
@@ -697,8 +623,8 @@ const LogsTable = () => {
                 />
                 <Form.Input
                   field='username'
-                  label='用户名称'
-                  style={{ width: 176 }}
+                  label='用户'
+                  style={{ width: '250px', marginBottom: '10px' }}
                   value={username}
                   placeholder={'可选值'}
                   name='username'
@@ -706,6 +632,45 @@ const LogsTable = () => {
                 />
               </>
             )}
+            <Form.Input
+              field='token_name'
+              label='令牌'
+              style={{ width: '250px', marginBottom: '10px' }}
+              value={token_name}
+              placeholder={'可选值'}
+              name='token_name'
+              onChange={(value) => handleInputChange(value, 'token_name')}
+            />
+            <Form.Input
+              field='model_name'
+              label='模型'
+              style={{ width: '250px', marginBottom: '10px' }}
+              value={model_name}
+              placeholder='可选值'
+              name='model_name'
+              onChange={(value) => handleInputChange(value, 'model_name')}
+            />
+            <Form.DatePicker
+              field='start_timestamp'
+              label='起始时间'
+              style={{ width: '250px', marginBottom: '10px' }}
+              initValue={start_timestamp}
+              value={start_timestamp}
+              type='dateTime'
+              name='start_timestamp'
+              onChange={(value) => handleInputChange(value, 'start_timestamp')}
+            />
+            <Form.DatePicker
+              field='end_timestamp'
+              fluid
+              label='结束时间'
+              style={{ width: '250px', marginBottom: '10px' }}
+              initValue={end_timestamp}
+              value={end_timestamp}
+              type='dateTime'
+              name='end_timestamp'
+              onChange={(value) => handleInputChange(value, 'end_timestamp')}
+            />
             <Button
               label='查询'
               type='primary'
@@ -713,29 +678,13 @@ const LogsTable = () => {
               className='btn-margin-right'
               onClick={refresh}
               loading={loading}
-              style={{ marginTop: 24 }}
+              style={{ marginBottom: '10px' }}
             >
               查询
             </Button>
-            <Form.Section></Form.Section>
+            {/* <Form.Section></Form.Section> */}
           </>
         </Form>
-        <Table
-          style={{ marginTop: 5 }}
-          columns={columns}
-          dataSource={logs}
-          pagination={{
-            currentPage: activePage,
-            pageSize: pageSize,
-            total: logCount,
-            pageSizeOpts: [10, 20, 50, 100],
-            showSizeChanger: true,
-            onPageSizeChange: (size) => {
-              handlePageSizeChange(size);
-            },
-            onPageChange: handlePageChange,
-          }}
-        />
         <Select
           defaultValue='0'
           insetLabel={'类型'}
@@ -752,18 +701,26 @@ const LogsTable = () => {
           <Select.Option value='3'>管理</Select.Option>
           <Select.Option value='4'>系统</Select.Option>
         </Select>
-        {/* </Collapsible>
-          {isOpen ? (
-            <a onClick={toggle} style={{ ...linkStyle }}>
-              收起
-            </a>
-          ) : (
-            <a onClick={toggle} style={{ ...linkStyle }}>
-              展开
-            </a>
-          )}
-        </div> */}
         <Table
+          style={{ marginTop: 15, 'white-space': 'nowrap' }}
+          bordered={true}
+          size='small'
+          columns={columns}
+          dataSource={logs}
+          pagination={{
+            size: !isMobile() ? '' : 'small',
+            currentPage: activePage,
+            pageSize: pageSize,
+            total: logCount,
+            pageSizeOpts: [10, 20, 50, 100],
+            showSizeChanger: true,
+            onPageSizeChange: (size) => {
+              handlePageSizeChange(size);
+            },
+            onPageChange: handlePageChange,
+          }}
+        />
+        {/* <Table
           style={{ marginTop: 15, 'white-space': 'nowrap' }}
           bordered={true}
           size='small'
@@ -783,7 +740,7 @@ const LogsTable = () => {
             },
             onPageChange: handlePageChange,
           }}
-        />
+        /> */}
       </Layout>
     </>
   );
