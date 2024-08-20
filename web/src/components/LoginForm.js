@@ -1,8 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { UserContext } from '../context/User';
-import { API, getLogo, showError, showInfo, showSuccess, updateAPI } from '../helpers';
-import { onGitHubOAuthClicked } from './utils';
+import { 
+  API, 
+  getLogo, 
+  showError, 
+  showInfo, 
+  showSuccess, 
+  updateAPI 
+} from '../helpers';
+import { onGitHubOAuthClicked, onLinuxDoOAuthClicked } from './utils';
 import Turnstile from 'react-turnstile';
 import {
   Button,
@@ -18,6 +25,7 @@ import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import TelegramLoginButton from 'react-telegram-login';
 
 import { IconGithubLogo } from '@douyinfe/semi-icons';
+import LinuxDoIcon from './LinuxDoIcon';
 import WeChatIcon from './WeChatIcon';
 import { setUserData } from '../helpers/data.js';
 
@@ -209,6 +217,7 @@ const LoginForm = () => {
                   </Text>
                 </div>
                 {status.github_oauth ||
+                status.linuxdo_oauth ||
                 status.wechat_login ||
                 status.telegram_oauth ? (
                   <>
@@ -228,6 +237,18 @@ const LoginForm = () => {
                           icon={<IconGithubLogo />}
                           onClick={() =>
                             onGitHubOAuthClicked(status.github_client_id)
+                          }
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {status.linuxdo_oauth ? (
+                        <Button
+                          type='primary'
+                          icon={<LinuxDoIcon />}
+                          style={{ color: '#000', margin: '0 5px' }}
+                          onClick={() =>
+                            onLinuxDoOAuthClicked(status.linuxdo_client_id)
                           }
                         />
                       ) : (

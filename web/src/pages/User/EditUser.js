@@ -25,6 +25,8 @@ const EditUser = (props) => {
     display_name: '',
     password: '',
     github_id: '',
+    linuxdo_id: '',
+    linuxdo_level: 0,
     wechat_id: '',
     email: '',
     quota: 0,
@@ -36,6 +38,8 @@ const EditUser = (props) => {
     display_name,
     password,
     github_id,
+    linuxdo_id,
+    linuxdo_level,
     wechat_id,
     telegram_id,
     email,
@@ -225,6 +229,16 @@ const EditUser = (props) => {
           <Input
             name='github_id'
             value={github_id}
+            autoComplete='new-password'
+            placeholder='此项只读，需要用户通过个人设置页面的相关绑定按钮进行绑定，不可直接修改'
+            readonly
+          />
+          <div style={{ marginTop: 20 }}>
+            <Typography.Text>已绑定的 LINUX DO 账户</Typography.Text>
+          </div>
+          <Input
+            name='linuxdo_id'
+            value={linuxdo_id + '（' + linuxdo_level + '级）'}
             autoComplete='new-password'
             placeholder='此项只读，需要用户通过个人设置页面的相关绑定按钮进行绑定，不可直接修改'
             readonly
